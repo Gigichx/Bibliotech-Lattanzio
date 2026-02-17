@@ -1,0 +1,11 @@
+{
+    "name": "bibliotech/bibliotech",
+    "description": "BiblioTech - Sistema di Gestione Biblioteca Scolastica",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

@@ -1,0 +1,53 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bibliotech_web
+    ports:
+      - "8085:80"
+    volumes:
+      - ./src:/var/www/html
+      - vendor_data:/var/www/html/vendor
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=bibliotech
+      - DB_USER=bibliotech_user
+      - DB_PASSWORD=bibliotech_password
+      - MAILTRAP_HOST=sandbox.smtp.mailtrap.io
+      - MAILTRAP_PORT=2525
+      - MAILTRAP_USER=${MAILTRAP_USER:-768ed3974f13f5}
+      - MAILTRAP_PASSWORD=${MAILTRAP_PASSWORD:-ac85f2f40feac1}
+      - APP_URL=http://localhost:8085
+    networks:
+      - bibliotech_network
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: bibliotech_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: bibliotech
+      MYSQL_USER: bibliotech_user
+      MYSQL_PASSWORD: bibliotech_password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - bibliotech_network
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local
+  vendor_data:
+    driver: local
+
+networks:
+  bibliotech_network:
+    driver: bridge
