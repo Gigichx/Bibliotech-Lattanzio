@@ -1,25 +1,21 @@
 <?php
 
-
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/config/db.php';
 
-
 requireAuth();
-
 
 $search = $_GET['search'] ?? '';
 $filter = $_GET['filter'] ?? 'all';
 
-
-$sql = "SELECT * FROM libri WHERE 1=1";
+$sql    = "SELECT * FROM libri WHERE 1=1";
 $params = [];
 
 if (!empty($search)) {
     $sql .= " AND (titolo LIKE ? OR autore LIKE ?)";
-    $search_term = "%{$search}%";
-    $params[] = $search_term;
-    $params[] = $search_term;
+    $term     = "%{$search}%";
+    $params[] = $term;
+    $params[] = $term;
 }
 
 if ($filter === 'available') {
@@ -42,16 +38,14 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo Libri - BiblioTech</title>
+    <title>Catalogo Libri — BiblioTech</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/IMG/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/IMG/logo.png">
-    <link rel="apple-touch-icon" href="/assets/IMG/logo.png">
-    </head>
-<body>
-    
+    <link rel="icon" type="image/png" href="/assets/IMG/logo.png">
+</head>
+<body class="page-wrapper">
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="/libri.php">📚 BiblioTech</a>
@@ -78,7 +72,7 @@ try {
                     <li class="nav-item">
                         <span class="navbar-text me-3">
                             👤 <?= htmlspecialchars(getCurrentUserName()) ?>
-                            <span class="badge bg-light text-dark ms-1"><?= htmlspecialchars(getCurrentUserRole()) ?></span>
+                            <span class="badge bg-light ms-1"><?= htmlspecialchars(getCurrentUserRole()) ?></span>
                         </span>
                     </li>
                     <li class="nav-item">
@@ -89,51 +83,73 @@ try {
         </div>
     </nav>
 
-    
-    <div class="container mt-4">
-        <div class="row mb-4">
-            <div class="col">
-                <h1 class="mb-3">Catalogo Libri</h1>
-                
-                
-                <form method="GET" action="/libri.php" class="row g-3 mb-4">
+    <div class="page-title-bar">
+        <div class="container">
+            <h1>Catalogo Libri</h1>
+            <p class="subtitle">
+                <?= count($libri) ?> libr<?= count($libri) === 1 ? 'o' : 'i' ?> trovat<?= count($libri) === 1 ? 'o' : 'i' ?>
+                <?php if (!empty($search)): ?>
+                    per "<strong><?= htmlspecialchars($search) ?></strong>"
+                <?php endif; ?>
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <?php if (isset($_GET['error']) && $_GET['error'] === 'access_denied'): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Non hai i permessi per accedere a quella sezione.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
+
+        <!-- Filtri -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" action="/libri.php" class="row g-3">
                     <div class="col-md-6">
-                        <input type="text" 
-                               class="form-control" 
-                               name="search" 
-                               placeholder="Cerca per titolo o autore..."
-                               value="<?= htmlspecialchars($search) ?>">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="search"
+                            placeholder="Cerca per titolo o autore…"
+                            value="<?= htmlspecialchars($search) ?>">
                     </div>
                     <div class="col-md-4">
                         <select class="form-select" name="filter">
-                            <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Tutti i libri</option>
-                            <option value="available" <?= $filter === 'available' ? 'selected' : '' ?>>Solo disponibili</option>
+                            <option value="all"         <?= $filter === 'all'         ? 'selected' : '' ?>>Tutti i libri</option>
+                            <option value="available"   <?= $filter === 'available'   ? 'selected' : '' ?>>Solo disponibili</option>
                             <option value="unavailable" <?= $filter === 'unavailable' ? 'selected' : '' ?>>Non disponibili</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 d-flex gap-2">
                         <button type="submit" class="btn btn-primary w-100">Cerca</button>
+                        <?php if (!empty($search) || $filter !== 'all'): ?>
+                            <a href="/libri.php" class="btn btn-outline-secondary" title="Rimuovi filtri">✕</a>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>
         </div>
 
-        
+        <!-- Griglia libri -->
         <?php if (empty($libri)): ?>
-            <div class="alert alert-info" role="alert">
-                Nessun libro trovato. <?= !empty($search) ? 'Prova con altri termini di ricerca.' : '' ?>
+            <div class="alert alert-info">
+                Nessun libro trovato.
+                <?= !empty($search) ? 'Prova con altri termini di ricerca.' : '' ?>
             </div>
         <?php else: ?>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <?php foreach ($libri as $libro): ?>
-                    <div class="col">
-                        <div class="card h-100 book-card">
-                            <div class="card-body">
+                <?php foreach ($libri as $i => $libro): ?>
+                    <div class="col fade-up fade-up-delay-<?= min($i + 1, 4) ?>">
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column">
                                 <h5 class="card-title"><?= htmlspecialchars($libro['titolo']) ?></h5>
                                 <h6 class="card-subtitle mb-3 text-muted">
                                     <?= htmlspecialchars($libro['autore']) ?>
                                 </h6>
-                                
+
                                 <div class="mb-3">
                                     <?php if ($libro['copie_disponibili'] > 0): ?>
                                         <span class="badge bg-success badge-availability">
@@ -145,9 +161,9 @@ try {
                                         </span>
                                     <?php endif; ?>
                                 </div>
-                                
-                                <a href="/libro.php?id=<?= $libro['id'] ?>" class="btn btn-primary btn-sm">
-                                    Vedi Dettagli
+
+                                <a href="/libro.php?id=<?= $libro['id'] ?>" class="btn btn-primary btn-sm mt-auto">
+                                    Vedi Dettagli →
                                 </a>
                             </div>
                         </div>
@@ -155,11 +171,12 @@ try {
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
+
     </div>
 
-    <footer class="mt-5 py-4 bg-light">
-        <div class="container text-center text-muted">
-            <small>BiblioTech - Sistema di Gestione Biblioteca &copy; 2026</small>
+    <footer class="site-footer">
+        <div class="container text-center">
+            <small>BiblioTech — Sistema di Gestione Biblioteca &copy; 2026</small>
         </div>
     </footer>
 
