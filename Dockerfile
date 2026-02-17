@@ -1,5 +1,14 @@
 FROM php:8.2-apache
 
+# Installa dipendenze di sistema necessarie per Composer
+RUN apt-get update && apt-get install -y \
+    git \
+    zip \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install zip \
+    && rm -rf /var/lib/apt/lists/*
+
 # Installa estensioni PHP necessarie
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 RUN docker-php-ext-install pdo pdo_mysql
