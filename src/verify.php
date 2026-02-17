@@ -79,7 +79,6 @@ if (empty($token)) {
 
     <div class="login-card" style="max-width: 480px;">
 
-        <!-- Logo + Brand -->
         <div class="d-flex align-items-center gap-2 mb-4">
             <img src="/assets/IMG/logo.png" alt="BiblioTech" style="height:36px; width:36px; object-fit:contain; border-radius:8px;">
             <div>
@@ -92,7 +91,6 @@ if (empty($token)) {
 
         <?php if ($error): ?>
 
-            <!-- Stato: errore -->
             <div class="text-center mb-4">
                 <div style="
                     width: 64px; height: 64px;
@@ -138,7 +136,6 @@ if (empty($token)) {
 
         <?php else: ?>
 
-            <!-- Stato: verifica in corso -->
             <div class="text-center">
                 <div style="
                     width: 64px; height: 64px;

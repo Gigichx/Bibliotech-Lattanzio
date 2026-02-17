@@ -99,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="login-page">
     <div class="login-card">
         
-        <!-- Logo -->
         <div style="text-align:center; margin-bottom:1.2rem;">
             <img src="/assets/IMG/logo.png" alt="BiblioTech Logo" style="width:80px; height:80px; object-fit:contain;">
         </div>
@@ -107,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1 style="text-align:center;">BiblioTech</h1>
         <p class="subtitle" style="text-align:center;">Sistema di Gestione Biblioteca</p>
         
-        <!-- Alerts -->
         <?php if ($error): ?>
             <div class="bt-alert bt-alert-danger">
                 <span>⚠️</span>
@@ -126,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         
-        <!-- Form o link per nuovo accesso -->
         <?php if (!$success): ?>
         <form method="POST" action="">
             <div class="bt-form-group">
@@ -144,8 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             
-            <button type="submit" class="btn-primary-bt w-100 justify-content-center py-2">
-                📨 Invia Link di Accesso
+            <button type="submit" class="btn-primary-bt w-100 justify-content-center py-2">Invia Link di Accesso
             </button>
         </form>
         <?php else: ?>

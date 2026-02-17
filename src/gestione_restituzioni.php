@@ -167,7 +167,6 @@ try {
             </div>
         <?php endif; ?>
 
-        <!-- Statistiche -->
         <div class="row g-4 mb-4">
             <div class="col-md-4 fade-up fade-up-delay-1">
                 <div class="card stats-card bg-primary text-white">
@@ -201,7 +200,6 @@ try {
             </div>
         </div>
 
-        <!-- Filtri -->
         <div class="card mb-4">
             <div class="card-body">
                 <form method="GET" action="" class="row g-3">
@@ -235,7 +233,6 @@ try {
             </div>
         </div>
 
-        <!-- Tabella prestiti attivi -->
         <h3 class="mb-3">
             Prestiti Attivi
             <span class="badge bg-primary ms-2" style="font-size:0.75rem;"><?= count($prestiti_attivi) ?></span>
@@ -309,7 +306,6 @@ try {
             </div>
         <?php endif; ?>
 
-        <!-- Restituzioni recenti -->
         <?php if (!empty($prestiti_recenti)): ?>
             <h3 class="mb-3">Restituzioni Recenti</h3>
             <div class="card">

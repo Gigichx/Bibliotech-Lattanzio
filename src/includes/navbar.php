@@ -1,10 +1,8 @@
 <?php
-// Richiede che auth.php sia già incluso
 $current_page   = basename($_SERVER['PHP_SELF']);
 $user_name      = getCurrentUserName();
 $user_role      = getCurrentUserRole();
 
-// Iniziali per l'avatar (max 2 lettere)
 $parts    = explode(' ', trim($user_name));
 $initials = strtoupper(substr($parts[0], 0, 1));
 if (isset($parts[1])) {
@@ -12,11 +10,9 @@ if (isset($parts[1])) {
 }
 ?>
 
-<!-- ── Navbar ──────────────────────────────────────────────────── -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
 
-        <!-- Hamburger sidebar (sinistra) + Brand -->
         <div class="d-flex align-items-center gap-2">
             <button class="btn-sidebar-toggle"
                     type="button"
@@ -35,7 +31,6 @@ if (isset($parts[1])) {
             </a>
         </div>
 
-        <!-- Link di navigazione centrali -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto ms-3">
                 <li class="nav-item">
@@ -56,7 +51,6 @@ if (isset($parts[1])) {
                 <?php endif; ?>
             </ul>
 
-            <!-- Utente + logout (destra) -->
             <div class="navbar-user">
                 <div class="navbar-avatar"><?= htmlspecialchars($initials) ?></div>
                 <div class="navbar-user-info">

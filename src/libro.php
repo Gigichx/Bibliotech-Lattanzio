@@ -147,17 +147,14 @@ try {
 
         <div class="row g-4">
 
-            <!-- Colonna principale -->
             <div class="col-md-8">
 
-                <!-- Copertina decorativa -->
                 <div class="book-cover-block">
                     <span class="cover-icon">📘</span>
                     <h2><?= htmlspecialchars($libro['titolo']) ?></h2>
                     <div class="cover-author">di <?= htmlspecialchars($libro['autore']) ?></div>
                 </div>
 
-                <!-- Azione prestito (studenti) -->
                 <?php if (isStudente()): ?>
                     <div class="card mb-4">
                         <div class="card-body">
@@ -189,7 +186,6 @@ try {
                     </div>
                 <?php endif; ?>
 
-                <!-- Storico prestiti (bibliotecario) -->
                 <?php if (isBibliotecario() && !empty($prestiti_history)): ?>
                     <div class="card">
                         <div class="card-header">Storico Prestiti</div>
@@ -232,7 +228,6 @@ try {
 
             </div>
 
-            <!-- Colonna laterale: info -->
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">Informazioni</div>
@@ -261,8 +256,8 @@ try {
                 </div>
             </div>
 
-        </div><!-- /.row -->
-    </div><!-- /.container -->
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="container text-center">

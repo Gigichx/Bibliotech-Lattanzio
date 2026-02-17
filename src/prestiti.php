@@ -73,7 +73,6 @@ try {
 
     <div class="container fade-up">
 
-        <!-- Prestiti attivi -->
         <h3 class="mb-3">
             Prestiti Attivi
             <span class="badge bg-primary ms-2" style="font-size:0.75rem;"><?= count($prestiti_attivi) ?></span>
@@ -134,7 +133,6 @@ try {
             </div>
         <?php endif; ?>
 
-        <!-- Storico -->
         <?php if (!empty($prestiti_storici)): ?>
             <h3 class="mb-3">Storico Prestiti</h3>
             <div class="card">
