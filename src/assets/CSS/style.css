@@ -56,16 +56,36 @@ a:hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     font-family: 'DM Sans', sans-serif;
     box-shadow: 0 2px 12px rgba(26, 58, 92, 0.15);
+    min-height: 62px;
+}
+
+/* Logo image nella navbar */
+.navbar-logo {
+    height: 32px;
+    width: 32px;
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
 }
 
 .navbar-brand {
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 1;
+}
+
+.navbar-brand-text {
+    line-height: 1;
 }
 
 .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.72);
     font-size: 0.88rem;
     font-weight: 400;
     padding: 0.45rem 0.85rem;
@@ -76,7 +96,233 @@ a:hover {
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link.active {
     color: #fff;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+/* User info area destra navbar */
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.navbar-avatar {
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+}
+
+.navbar-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.navbar-user-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.navbar-user-role {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: capitalize;
+}
+
+.navbar-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 0 0.25rem;
+}
+
+.navbar-logout {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.82rem !important;
+    padding: 0.35rem 0.7rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px !important;
+    transition: all var(--transition) !important;
+}
+
+.navbar-logout:hover {
+    color: #fff !important;
+    background: rgba(192, 57, 43, 0.25) !important;
+    border-color: rgba(192, 57, 43, 0.4) !important;
+}
+
+/* Offcanvas sidebar */
+.offcanvas.offcanvas-sidebar {
+    width: 260px;
+    background: var(--primary);
+    border-right: none;
+}
+
+.offcanvas-sidebar .offcanvas-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.25rem 1.5rem;
+}
+
+.offcanvas-sidebar .offcanvas-title {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.offcanvas-sidebar .btn-close {
+    filter: invert(1) grayscale(1) brightness(2);
+    opacity: 0.6;
+}
+
+.offcanvas-sidebar .btn-close:hover {
+    opacity: 1;
+}
+
+.offcanvas-sidebar .offcanvas-body {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Nav links dentro offcanvas */
+.sidebar-nav-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.35);
+    padding: 0.75rem 1.5rem 0.3rem;
+}
+
+.sidebar-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.65rem 1.5rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    transition: all var(--transition);
+}
+
+.sidebar-nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+    border-left-color: var(--accent);
+}
+
+.sidebar-nav-link.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-left-color: var(--accent);
+    font-weight: 500;
+}
+
+.sidebar-nav-icon {
+    width: 1.1rem;
+    text-align: center;
+    flex-shrink: 0;
+    font-size: 0.95rem;
+}
+
+/* Footer utente dentro offcanvas */
+.sidebar-user-footer {
+    margin-top: auto;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-user-block {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+}
+
+.sidebar-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.sidebar-user-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.sidebar-user-role {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: capitalize;
+}
+
+.sidebar-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.83rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+}
+
+.sidebar-logout-btn:hover {
+    background: rgba(192, 57, 43, 0.25);
+    border-color: rgba(192, 57, 43, 0.4);
+    color: #fff;
+}
+
+/* Bottone hamburger per aprire sidebar */
+.btn-sidebar-toggle {
     background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 7px;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.35rem 0.6rem;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.btn-sidebar-toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .navbar-text {

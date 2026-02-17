@@ -46,42 +46,7 @@ try {
 </head>
 <body class="page-wrapper">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/libri.php">📚 BiblioTech</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/libri.php">Catalogo</a>
-                    </li>
-                    <?php if (isStudente()): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/prestiti.php">I Miei Prestiti</a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if (isBibliotecario()): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/gestione_restituzioni.php">Gestione Restituzioni</a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="navbar-text me-3">
-                            👤 <?= htmlspecialchars(getCurrentUserName()) ?>
-                            <span class="badge bg-light ms-1"><?= htmlspecialchars(getCurrentUserRole()) ?></span>
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php require_once __DIR__ . '/includes/navbar.php'; ?>
 
     <div class="page-title-bar">
         <div class="container">
@@ -104,17 +69,13 @@ try {
             </div>
         <?php endif; ?>
 
-        <!-- Filtri -->
         <div class="card mb-4">
             <div class="card-body">
                 <form method="GET" action="/libri.php" class="row g-3">
                     <div class="col-md-6">
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="search"
-                            placeholder="Cerca per titolo o autore…"
-                            value="<?= htmlspecialchars($search) ?>">
+                        <input type="text" class="form-control" name="search"
+                               placeholder="Cerca per titolo o autore…"
+                               value="<?= htmlspecialchars($search) ?>">
                     </div>
                     <div class="col-md-4">
                         <select class="form-select" name="filter">
@@ -133,11 +94,9 @@ try {
             </div>
         </div>
 
-        <!-- Griglia libri -->
         <?php if (empty($libri)): ?>
             <div class="alert alert-info">
-                Nessun libro trovato.
-                <?= !empty($search) ? 'Prova con altri termini di ricerca.' : '' ?>
+                Nessun libro trovato. <?= !empty($search) ? 'Prova con altri termini di ricerca.' : '' ?>
             </div>
         <?php else: ?>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -146,22 +105,16 @@ try {
                         <div class="card h-100">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title"><?= htmlspecialchars($libro['titolo']) ?></h5>
-                                <h6 class="card-subtitle mb-3 text-muted">
-                                    <?= htmlspecialchars($libro['autore']) ?>
-                                </h6>
-
+                                <h6 class="card-subtitle mb-3 text-muted"><?= htmlspecialchars($libro['autore']) ?></h6>
                                 <div class="mb-3">
                                     <?php if ($libro['copie_disponibili'] > 0): ?>
                                         <span class="badge bg-success badge-availability">
                                             ✓ Disponibile (<?= $libro['copie_disponibili'] ?>/<?= $libro['copie_totali'] ?>)
                                         </span>
                                     <?php else: ?>
-                                        <span class="badge bg-danger badge-availability">
-                                            ✗ Non disponibile
-                                        </span>
+                                        <span class="badge bg-danger badge-availability">✗ Non disponibile</span>
                                     <?php endif; ?>
                                 </div>
-
                                 <a href="/libro.php?id=<?= $libro['id'] ?>" class="btn btn-primary btn-sm mt-auto">
                                     Vedi Dettagli →
                                 </a>

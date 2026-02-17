@@ -57,35 +57,7 @@ try {
 </head>
 <body class="page-wrapper">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/libri.php">📚 BiblioTech</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/libri.php">Catalogo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/prestiti.php">I Miei Prestiti</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="navbar-text me-3">
-                            👤 <?= htmlspecialchars(getCurrentUserName()) ?>
-                            <span class="badge bg-light ms-1"><?= htmlspecialchars(getCurrentUserRole()) ?></span>
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php require_once __DIR__ . '/includes/navbar.php'; ?>
 
     <div class="page-title-bar">
         <div class="container d-flex align-items-center justify-content-between gap-3">
