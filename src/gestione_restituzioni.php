@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/config/db.php';
 
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prestito_id'])) {
             );
 
             $pdo->commit();
-            $success = "Restituzione registrata con successo per il libro \"{$prestito['libro_titolo']}\".";
+            $success = "Restituzione registrata per \"" . $prestito['libro_titolo'] . "\".";
 
         } catch (Exception $e) {
             if ($pdo->inTransaction()) $pdo->rollback();
@@ -98,12 +97,10 @@ try {
     if ($show_all) {
         $prestiti_recenti = db_fetch_all('
             SELECT
-                p.id,
                 p.data_prestito,
                 p.data_restituzione,
-                u.nome  AS utente_nome,
+                u.nome   AS utente_nome,
                 l.titolo AS libro_titolo,
-                l.autore AS libro_autore,
                 DATEDIFF(p.data_restituzione, p.data_prestito) AS durata_prestito
             FROM prestiti p
             JOIN utenti u ON p.id_utente = u.id
@@ -143,9 +140,9 @@ try {
                 <p class="subtitle">Monitora e registra le restituzioni dei libri</p>
             </div>
             <?php if (!$show_all): ?>
-                <a href="?show_all=1<?= $filter_user ? '&user='.urlencode($filter_user) : '' ?><?= $filter_book ? '&book='.urlencode($filter_book) : '' ?>"
+                <a href="?show_all=1<?= $filter_user ? '&user=' . urlencode($filter_user) : '' ?><?= $filter_book ? '&book=' . urlencode($filter_book) : '' ?>"
                    class="btn btn-outline-primary btn-sm">
-                    📋 Mostra anche i restituiti
+                    Mostra anche i restituiti
                 </a>
             <?php endif; ?>
         </div>
@@ -171,30 +168,24 @@ try {
             <div class="col-md-4 fade-up fade-up-delay-1">
                 <div class="card stats-card bg-primary text-white">
                     <div class="card-body">
-                        <h5 class="card-title text-white mb-1">Prestiti Attivi</h5>
-                        <div style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:600; line-height:1;">
-                            <?= $stats['totale_prestiti_attivi'] ?>
-                        </div>
+                        <div class="stats-card-label">Prestiti Attivi</div>
+                        <div class="stats-card-number"><?= $stats['totale_prestiti_attivi'] ?></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 fade-up fade-up-delay-2">
                 <div class="card stats-card bg-danger text-white">
                     <div class="card-body">
-                        <h5 class="card-title text-white mb-1">In Ritardo (&gt;30 gg)</h5>
-                        <div style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:600; line-height:1;">
-                            <?= $stats['prestiti_in_ritardo'] ?>
-                        </div>
+                        <div class="stats-card-label">In Ritardo (&gt;30 gg)</div>
+                        <div class="stats-card-number"><?= $stats['prestiti_in_ritardo'] ?></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 fade-up fade-up-delay-3">
                 <div class="card stats-card bg-warning text-white">
                     <div class="card-body">
-                        <h5 class="card-title text-white mb-1">Scadenza Vicina (21–30 gg)</h5>
-                        <div style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:600; line-height:1;">
-                            <?= $stats['prestiti_scadenza_vicina'] ?>
-                        </div>
+                        <div class="stats-card-label">Scadenza Vicina (21–30 gg)</div>
+                        <div class="stats-card-number"><?= $stats['prestiti_scadenza_vicina'] ?></div>
                     </div>
                 </div>
             </div>
@@ -204,20 +195,14 @@ try {
             <div class="card-body">
                 <form method="GET" action="" class="row g-3">
                     <div class="col-md-5">
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="user"
-                            placeholder="Filtra per utente…"
-                            value="<?= htmlspecialchars($filter_user) ?>">
+                        <input type="text" class="form-control" name="user"
+                               placeholder="Filtra per utente…"
+                               value="<?= htmlspecialchars($filter_user) ?>">
                     </div>
                     <div class="col-md-5">
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="book"
-                            placeholder="Filtra per libro…"
-                            value="<?= htmlspecialchars($filter_book) ?>">
+                        <input type="text" class="form-control" name="book"
+                               placeholder="Filtra per libro…"
+                               value="<?= htmlspecialchars($filter_book) ?>">
                     </div>
                     <div class="col-md-2 d-flex gap-2">
                         <?php if ($show_all): ?>
@@ -292,9 +277,7 @@ try {
                                             <form method="POST" action="" style="display:inline;"
                                                   onsubmit="return confirm('Confermi la restituzione di questo libro?');">
                                                 <input type="hidden" name="prestito_id" value="<?= $prestito['id'] ?>">
-                                                <button type="submit" class="btn btn-success btn-sm">
-                                                    ✓ Registra
-                                                </button>
+                                                <button type="submit" class="btn btn-success btn-sm">Registra</button>
                                             </form>
                                         </td>
                                     </tr>

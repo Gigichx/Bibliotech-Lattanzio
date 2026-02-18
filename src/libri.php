@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/config/db.php';
 
@@ -12,7 +11,7 @@ $sql    = "SELECT * FROM libri WHERE 1=1";
 $params = [];
 
 if (!empty($search)) {
-    $sql .= " AND (titolo LIKE ? OR autore LIKE ?)";
+    $sql     .= " AND (titolo LIKE ? OR autore LIKE ?)";
     $term     = "%{$search}%";
     $params[] = $term;
     $params[] = $term;
@@ -63,7 +62,7 @@ try {
     <div class="container">
 
         <?php if (isset($_GET['error']) && $_GET['error'] === 'access_denied'): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 Non hai i permessi per accedere a quella sezione.
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -96,7 +95,8 @@ try {
 
         <?php if (empty($libri)): ?>
             <div class="alert alert-info">
-                Nessun libro trovato. <?= !empty($search) ? 'Prova con altri termini di ricerca.' : '' ?>
+                Nessun libro trovato.
+                <?= !empty($search) ? 'Prova con altri termini di ricerca.' : '' ?>
             </div>
         <?php else: ?>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -109,14 +109,14 @@ try {
                                 <div class="mb-3">
                                     <?php if ($libro['copie_disponibili'] > 0): ?>
                                         <span class="badge bg-success badge-availability">
-                                            ✓ Disponibile (<?= $libro['copie_disponibili'] ?>/<?= $libro['copie_totali'] ?>)
+                                            Disponibile (<?= $libro['copie_disponibili'] ?>/<?= $libro['copie_totali'] ?>)
                                         </span>
                                     <?php else: ?>
-                                        <span class="badge bg-danger badge-availability">✗ Non disponibile</span>
+                                        <span class="badge bg-danger badge-availability">Non disponibile</span>
                                     <?php endif; ?>
                                 </div>
                                 <a href="/libro.php?id=<?= $libro['id'] ?>" class="btn btn-primary btn-sm mt-auto">
-                                    Vedi Dettagli →
+                                    Vedi Dettagli
                                 </a>
                             </div>
                         </div>

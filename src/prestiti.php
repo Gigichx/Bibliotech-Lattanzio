@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/config/db.php';
 
@@ -67,7 +66,7 @@ try {
                     <?= count($prestiti_attivi) ?> prestit<?= count($prestiti_attivi) === 1 ? 'o' : 'i' ?> attiv<?= count($prestiti_attivi) === 1 ? 'o' : 'i' ?>
                 </p>
             </div>
-            <a href="/libri.php" class="btn btn-outline-primary btn-sm">📖 Vai al Catalogo</a>
+            <a href="/libri.php" class="btn btn-outline-primary btn-sm">Vai al Catalogo</a>
         </div>
     </div>
 
@@ -105,9 +104,7 @@ try {
                                     <h5 class="card-title mb-0"><?= htmlspecialchars($prestito['titolo']) ?></h5>
                                     <?= $badge ?>
                                 </div>
-                                <h6 class="card-subtitle mb-3 text-muted">
-                                    <?= htmlspecialchars($prestito['autore']) ?>
-                                </h6>
+                                <h6 class="card-subtitle mb-3 text-muted"><?= htmlspecialchars($prestito['autore']) ?></h6>
 
                                 <dl class="mb-3">
                                     <div class="meta-row">
@@ -124,7 +121,7 @@ try {
                                     <a href="/libro.php?id=<?= $prestito['libro_id'] ?>" class="btn btn-outline-primary btn-sm">
                                         Vedi Dettagli
                                     </a>
-                                    <small class="text-muted">💡 Rivolgiti al bibliotecario per restituirlo.</small>
+                                    <small class="text-muted">Rivolgiti al bibliotecario per restituirlo.</small>
                                 </div>
                             </div>
                         </div>

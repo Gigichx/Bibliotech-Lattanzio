@@ -1,7 +1,7 @@
 <?php
-$current_page   = basename($_SERVER['PHP_SELF']);
-$user_name      = getCurrentUserName();
-$user_role      = getCurrentUserRole();
+$current_page = basename($_SERVER['PHP_SELF']);
+$user_name    = getCurrentUserName();
+$user_role    = getCurrentUserRole();
 
 $parts    = explode(' ', trim($user_name));
 $initials = strtoupper(substr($parts[0], 0, 1));
@@ -25,7 +25,7 @@ if (isset($parts[1])) {
                 </svg>
             </button>
 
-            <a class="navbar-brand" href="/libri.php">
+            <a class="navbar-brand" href="/dashboard.php">
                 <img src="/assets/IMG/logo.png" alt="BiblioTech" class="navbar-logo">
                 <span class="navbar-brand-text">BiblioTech</span>
             </a>
@@ -33,6 +33,10 @@ if (isset($parts[1])) {
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto ms-3">
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page === 'dashboard.php' ? 'active' : '' ?>"
+                       href="/dashboard.php">Dashboard</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link <?= $current_page === 'libri.php' ? 'active' : '' ?>"
                        href="/libri.php">Catalogo</a>
@@ -45,8 +49,12 @@ if (isset($parts[1])) {
                 <?php endif; ?>
                 <?php if (isBibliotecario()): ?>
                     <li class="nav-item">
+                        <a class="nav-link <?= $current_page === 'gestione_libri.php' ? 'active' : '' ?>"
+                           href="/gestione_libri.php">Gestione Libri</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link <?= $current_page === 'gestione_restituzioni.php' ? 'active' : '' ?>"
-                           href="/gestione_restituzioni.php">Gestione Restituzioni</a>
+                           href="/gestione_restituzioni.php">Restituzioni</a>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -71,7 +79,6 @@ if (isset($parts[1])) {
     </div>
 </nav>
 
-<!-- ── Offcanvas Sidebar ───────────────────────────────────────── -->
 <div class="offcanvas offcanvas-sidebar offcanvas-start"
      tabindex="-1"
      id="sidebarOffcanvas"
@@ -88,6 +95,17 @@ if (isset($parts[1])) {
     <div class="offcanvas-body">
 
         <div class="sidebar-nav-label">Navigazione</div>
+
+        <a href="/dashboard.php"
+           class="sidebar-nav-link <?= $current_page === 'dashboard.php' ? 'active' : '' ?>">
+            <span class="sidebar-nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.517z"/>
+                    <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+                </svg>
+            </span>
+            Dashboard
+        </a>
 
         <a href="/libri.php"
            class="sidebar-nav-link <?= $current_page === 'libri.php' ? 'active' : '' ?>">
@@ -112,7 +130,16 @@ if (isset($parts[1])) {
         <?php endif; ?>
 
         <?php if (isBibliotecario()): ?>
-            <div class="sidebar-nav-label">Gestione</div>
+            <div class="sidebar-nav-label">Amministrazione</div>
+            <a href="/gestione_libri.php"
+               class="sidebar-nav-link <?= in_array($current_page, ['gestione_libri.php','libro_form.php']) ? 'active' : '' ?>">
+                <span class="sidebar-nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"/>
+                    </svg>
+                </span>
+                Gestione Libri
+            </a>
             <a href="/gestione_restituzioni.php"
                class="sidebar-nav-link <?= $current_page === 'gestione_restituzioni.php' ? 'active' : '' ?>">
                 <span class="sidebar-nav-icon">
@@ -124,7 +151,6 @@ if (isset($parts[1])) {
             </a>
         <?php endif; ?>
 
-        <!-- Footer utente dentro sidebar -->
         <div class="sidebar-user-footer">
             <div class="sidebar-user-block">
                 <div class="sidebar-avatar"><?= htmlspecialchars($initials) ?></div>

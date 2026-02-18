@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/config/db.php';
 
@@ -78,7 +77,7 @@ try {
     }
 
     $prestiti_history = db_fetch_all(
-        'SELECT p.*, u.nome AS utente_nome, u.ruolo AS utente_ruolo
+        'SELECT p.*, u.nome AS utente_nome
          FROM prestiti p
          JOIN utenti u ON p.id_utente = u.id
          WHERE p.id_libro = ?
@@ -88,7 +87,7 @@ try {
     );
 
 } catch (PDOException $e) {
-    error_log("Error fetching book details: " . $e->getMessage());
+    error_log("Error fetching book: " . $e->getMessage());
     header('Location: /libri.php');
     exit;
 }
@@ -115,9 +114,9 @@ try {
                 <p class="subtitle">di <?= htmlspecialchars($libro['autore']) ?></p>
             </div>
             <?php if ($libro['copie_disponibili'] > 0): ?>
-                <span class="badge bg-success fs-6">✓ Disponibile</span>
+                <span class="badge bg-success fs-6">Disponibile</span>
             <?php else: ?>
-                <span class="badge bg-danger fs-6">✗ Non disponibile</span>
+                <span class="badge bg-danger fs-6">Non disponibile</span>
             <?php endif; ?>
         </div>
     </div>
@@ -160,8 +159,8 @@ try {
                         <div class="card-body">
                             <?php if ($user_has_active_loan): ?>
                                 <div class="alert alert-info mb-0">
-                                    <strong>ℹ️ Hai già questo libro in prestito.</strong><br>
-                                    <a href="/prestiti.php">Visualizza i tuoi prestiti →</a>
+                                    <strong>Hai già questo libro in prestito.</strong><br>
+                                    <a href="/prestiti.php">Visualizza i tuoi prestiti</a>
                                 </div>
                             <?php elseif ($libro['copie_disponibili'] > 0): ?>
                                 <p class="text-muted mb-3">
@@ -173,7 +172,7 @@ try {
                                       onsubmit="return confirm('Confermi di voler prendere in prestito questo libro?');">
                                     <input type="hidden" name="borrow" value="1">
                                     <button type="submit" class="btn btn-primary btn-lg">
-                                        📖 Prendi in Prestito
+                                        Prendi in Prestito
                                     </button>
                                 </form>
                             <?php else: ?>
@@ -234,10 +233,6 @@ try {
                     <div class="card-body">
                         <dl class="mb-0">
                             <div class="meta-row">
-                                <dt>ID Libro</dt>
-                                <dd>#<?= $libro['id'] ?></dd>
-                            </div>
-                            <div class="meta-row">
                                 <dt>Autore</dt>
                                 <dd><?= htmlspecialchars($libro['autore']) ?></dd>
                             </div>
@@ -254,6 +249,16 @@ try {
                         </dl>
                     </div>
                 </div>
+
+                <?php if (isBibliotecario()): ?>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <a href="/libro_form.php?id=<?= $libro['id'] ?>" class="btn btn-outline-primary w-100 mb-2">
+                                Modifica Libro
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
 
         </div>
