@@ -37,7 +37,7 @@ try {
         [getCurrentUserId()]
     );
 
-} catch (PDOException $e) {
+} catch (Exception $e) {
     error_log("Error fetching loans: " . $e->getMessage());
     $prestiti_attivi  = [];
     $prestiti_storici = [];

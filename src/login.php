@@ -76,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $success = "Se l'email è registrata nel sistema, riceverai un link per accedere.";
             }
-        } catch (PDOException $e) {
-            error_log("Errore DB in login: " . $e->getMessage());
+        } catch (Exception $e) {
+            error_log("Errore in login: " . $e->getMessage());
             $error = 'Errore del sistema. Riprova più tardi.';
         }
     }

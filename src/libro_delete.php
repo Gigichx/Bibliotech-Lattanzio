@@ -36,7 +36,7 @@ try {
     header("Location: /gestione_libri.php?success={$msg}");
     exit;
 
-} catch (PDOException $e) {
+} catch (Exception $e) {
     error_log("libro_delete error: " . $e->getMessage());
     header('Location: /gestione_libri.php?err=Errore+del+sistema.+Riprova+più+tardi.');
     exit;

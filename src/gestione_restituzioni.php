@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prestito_id'])) {
 
     if ($prestito_id) {
         try {
-            $pdo->beginTransaction();
+            db_begin();
 
             $prestito = db_fetch_one(
                 'SELECT p.*, l.titolo AS libro_titolo
@@ -37,11 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prestito_id'])) {
                 [$prestito['id_libro']]
             );
 
-            $pdo->commit();
+            db_commit();
             $success = "Restituzione registrata per \"" . $prestito['libro_titolo'] . "\".";
 
         } catch (Exception $e) {
-            if ($pdo->inTransaction()) $pdo->rollback();
+            db_rollback();
             error_log("Return error: " . $e->getMessage());
             $error = $e->getMessage();
         }
@@ -111,7 +111,7 @@ try {
         ');
     }
 
-} catch (PDOException $e) {
+} catch (Exception $e) {
     error_log("Error fetching loans: " . $e->getMessage());
     $prestiti_attivi  = [];
     $prestiti_recenti = [];

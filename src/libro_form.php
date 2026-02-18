@@ -40,16 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($is_edit && empty($errors)) {
-        $prestiti_attivi_count = db_fetch_one(
-            'SELECT COUNT(*) AS n FROM prestiti WHERE id_libro = ? AND data_restituzione IS NULL',
-            [$libro_id]
-        )['n'];
-
-        if ($copie_disponibili < 0) {
-            $errors[] = 'Copie disponibili non può essere negativo.';
-        }
-
         $copie_in_prestito = $libro['copie_totali'] - $libro['copie_disponibili'];
+
         if ($copie_totali < $copie_in_prestito) {
             $errors[] = "Ci sono {$copie_in_prestito} prestiti attivi: le copie totali non possono scendere sotto {$copie_in_prestito}.";
         }
@@ -76,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: /gestione_libri.php?success=' . urlencode("Libro \"$titolo\" aggiunto con successo."));
             }
             exit;
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             error_log("libro_form error: " . $e->getMessage());
             $errors[] = 'Errore del sistema. Riprova più tardi.';
         }

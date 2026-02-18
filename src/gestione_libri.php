@@ -10,8 +10,8 @@ $sql    = "SELECT * FROM libri WHERE 1=1";
 $params = [];
 
 if (!empty($search)) {
-    $sql    .= " AND (titolo LIKE ? OR autore LIKE ?)";
-    $term    = "%{$search}%";
+    $sql     .= " AND (titolo LIKE ? OR autore LIKE ?)";
+    $term     = "%{$search}%";
     $params[] = $term;
     $params[] = $term;
 }
@@ -20,7 +20,7 @@ $sql .= " ORDER BY titolo ASC";
 
 try {
     $libri = db_fetch_all($sql, $params);
-} catch (PDOException $e) {
+} catch (Exception $e) {
     error_log("Error fetching books: " . $e->getMessage());
     $libri = [];
 }

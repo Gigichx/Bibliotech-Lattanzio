@@ -14,7 +14,7 @@ if (empty($token)) {
     $error = 'Token mancante. Richiedi un nuovo link di accesso.';
 } else {
     try {
-        $pdo->beginTransaction();
+        db_begin();
 
         $token_data = db_fetch_one("
             SELECT
@@ -40,7 +40,7 @@ if (empty($token)) {
             $error = 'Questo link è scaduto. Richiedi un nuovo link di accesso.';
         } else {
             db_query('UPDATE magic_tokens SET usato = 1 WHERE id = ?', [$token_data['token_id']]);
-            $pdo->commit();
+            db_commit();
 
             createUserSession([
                 'id'    => $token_data['id'],
@@ -52,10 +52,10 @@ if (empty($token)) {
             exit;
         }
 
-        $pdo->rollback();
+        db_rollback();
 
-    } catch (PDOException $e) {
-        if ($pdo->inTransaction()) $pdo->rollback();
+    } catch (Exception $e) {
+        db_rollback();
         error_log("Token verification error: " . $e->getMessage());
         $error = 'Errore del sistema. Riprova più tardi.';
     }

@@ -15,7 +15,7 @@ if (!$libro_id) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrow']) && isStudente()) {
     try {
-        $pdo->beginTransaction();
+        db_begin();
 
         $libro = db_fetch_one(
             'SELECT * FROM libri WHERE id = ? AND copie_disponibili > 0 FOR UPDATE',
@@ -40,20 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrow']) && isStuden
             [getCurrentUserId(), $libro_id]
         );
 
-        $result = db_query(
+        $stmt = db_query(
             'UPDATE libri SET copie_disponibili = copie_disponibili - 1 WHERE id = ? AND copie_disponibili > 0',
             [$libro_id]
         );
 
-        if ($result->rowCount() === 0) {
+        if (mysqli_stmt_affected_rows($stmt) === 0) {
             throw new Exception('Prestito non riuscito. Il libro potrebbe non essere più disponibile.');
         }
 
-        $pdo->commit();
+        db_commit();
         $success = 'Prestito effettuato con successo! Puoi visualizzarlo nella sezione "I Miei Prestiti".';
 
     } catch (Exception $e) {
-        if ($pdo->inTransaction()) $pdo->rollback();
+        db_rollback();
         error_log("Borrow error: " . $e->getMessage());
         $error = $e->getMessage();
     }
@@ -86,7 +86,7 @@ try {
         [$libro_id]
     );
 
-} catch (PDOException $e) {
+} catch (Exception $e) {
     error_log("Error fetching book: " . $e->getMessage());
     header('Location: /libri.php');
     exit;

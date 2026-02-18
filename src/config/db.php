@@ -1,54 +1,72 @@
 <?php
 
-
-
-$db_host = getenv('DB_HOST') ?: 'db';
-$db_name = getenv('DB_NAME') ?: 'bibliotech';
-$db_user = getenv('DB_USER') ?: 'bibliotech_user';
+$db_host     = getenv('DB_HOST')     ?: 'db';
+$db_name     = getenv('DB_NAME')     ?: 'bibliotech';
+$db_user     = getenv('DB_USER')     ?: 'bibliotech_user';
 $db_password = getenv('DB_PASSWORD') ?: 'bibliotech_password';
-$db_charset = 'utf8mb4';
 
+$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
-$dsn = "mysql:host=$db_host;dbname=$db_name;charset=$db_charset";
-
-
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES $db_charset"
-];
-
-try {
-
-    $pdo = new PDO($dsn, $db_user, $db_password, $options);
-} catch (PDOException $e) {
-
-    error_log("Database Connection Error: " . $e->getMessage());
-    
-
+if (!$conn) {
+    error_log("Database Connection Error: " . mysqli_connect_error());
     die("Errore di connessione al database. Riprova più tardi.");
 }
 
+mysqli_set_charset($conn, 'utf8mb4');
+
 
 function db_query($sql, $params = []) {
-    global $pdo;
-    try {
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt;
-    } catch (PDOException $e) {
-        error_log("Database Query Error: " . $e->getMessage());
-        throw $e;
+    global $conn;
+
+    $stmt = mysqli_prepare($conn, $sql);
+    if (!$stmt) {
+        error_log("Prepare error: " . mysqli_error($conn));
+        throw new Exception("Errore nella query.");
     }
+
+    if (!empty($params)) {
+        $types = str_repeat('s', count($params));
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+
+    if (!mysqli_stmt_execute($stmt)) {
+        error_log("Execute error: " . mysqli_stmt_error($stmt));
+        throw new Exception("Errore nell'esecuzione della query.");
+    }
+
+    return $stmt;
 }
 
 
 function db_fetch_one($sql, $params = []) {
-    return db_query($sql, $params)->fetch();
+    $stmt   = db_query($sql, $params);
+    $result = mysqli_stmt_get_result($stmt);
+    $row    = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+    return $row ?: null;
 }
 
 
 function db_fetch_all($sql, $params = []) {
-    return db_query($sql, $params)->fetchAll();
+    $stmt   = db_query($sql, $params);
+    $result = mysqli_stmt_get_result($stmt);
+    $rows   = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_stmt_close($stmt);
+    return $rows;
+}
+
+
+function db_begin() {
+    global $conn;
+    mysqli_begin_transaction($conn);
+}
+
+function db_commit() {
+    global $conn;
+    mysqli_commit($conn);
+}
+
+function db_rollback() {
+    global $conn;
+    mysqli_rollback($conn);
 }

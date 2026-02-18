@@ -27,7 +27,7 @@ $sql .= " ORDER BY titolo ASC";
 
 try {
     $libri = db_fetch_all($sql, $params);
-} catch (PDOException $e) {
+} catch (Exception $e) {
     error_log("Error fetching books: " . $e->getMessage());
     $libri = [];
 }

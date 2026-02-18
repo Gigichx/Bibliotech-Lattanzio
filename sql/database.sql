@@ -63,7 +63,28 @@ INSERT INTO libri (titolo, autore, copie_totali, copie_disponibili) VALUES
 ('1984', 'George Orwell', 2, 1),
 ('Il Signore degli Anelli', 'J.R.R. Tolkien', 4, 4),
 ('Cent''anni di solitudine', 'Gabriel García Márquez', 1, 0),
-('Orgoglio e Pregiudizio', 'Jane Austen', 3, 2);
+('Orgoglio e Pregiudizio', 'Jane Austen', 3, 2),
+('Il Grande Gatsby', 'F. Scott Fitzgerald', 2, 2),
+('Moby Dick', 'Herman Melville', 2, 1),
+('La Divina Commedia', 'Dante Alighieri', 5, 4),
+('I Promessi Sposi', 'Alessandro Manzoni', 4, 3),
+('Delitto e Castigo', 'Fëdor Dostoevskij', 3, 1),
+('Il Giovane Holden', 'J.D. Salinger', 2, 2),
+('Harry Potter e la Pietra Filosofale', 'J.K. Rowling', 6, 5),
+('Il Codice Da Vinci', 'Dan Brown', 3, 2),
+('La Metamorfosi', 'Franz Kafka', 2, 1),
+('Il Piccolo Principe', 'Antoine de Saint-Exupéry', 4, 4),
+('Shining', 'Stephen King', 3, 2),
+('Dune', 'Frank Herbert', 4, 3),
+('Il Trono di Spade', 'George R.R. Martin', 5, 4),
+('La Ragazza del Treno', 'Paula Hawkins', 2, 1),
+('Il Cacciatore di Aquiloni', 'Khaled Hosseini', 3, 2),
+('Norwegian Wood', 'Haruki Murakami', 2, 2),
+('Il Conte di Montecristo', 'Alexandre Dumas', 3, 1),
+('Fahrenheit 451', 'Ray Bradbury', 2, 2),
+('La Storia Infinita', 'Michael Ende', 3, 3),
+('L''Amica Geniale', 'Elena Ferrante', 4, 3);
+
 
 INSERT INTO prestiti (id_utente, id_libro, data_prestito, data_restituzione) VALUES
 (1, 2, DATE_SUB(CURDATE(), INTERVAL 5 DAY), NULL),
