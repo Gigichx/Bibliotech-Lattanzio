@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light" style="">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiblioTech-Lattanzio — Documentazione Tecnica</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="/src/assets/IMG/logo.png">
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --ink-muted: #5a5a5a;
+      --ink-faint: #8a8a8a;
+      --primary: #1a3a5c;
+      --accent: #c8a96e;
+      --danger: #c0392b;
+      --success: #1a7a4a;
+      --warning: #b7860b;
+      --bg: #faf8f4;
+      --bg-card: #ffffff;
+      --bg-code: #f3f0ea;
+      --border: #e2ddd6;
+      --border-strong: #c8c0b0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.75;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Cover Section */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: var(--primary);
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200, 169, 110, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+    }
+
+    .cover-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .cover-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .cover h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .cover-subtitle {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.65);
+      font-style: italic;
+      margin-bottom: 3rem;
+    }
+
+    .cover-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--accent);
+      margin: 0 auto 3rem;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .cover-meta span {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+    }
+
+    /* Main Layout */
+    .doc-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+      position: relative;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 3rem;
+      margin-bottom: 5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .toc-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.75rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding-left: 0;
+    }
+
+    .toc ol li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+    }
+
+    .toc ol li:last-child {
+      border-bottom: none;
+    }
+
+    .toc ol li::before {
+      content: counter(toc, decimal-leading-zero);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      width: 24px;
+      font-weight: 600;
+    }
+
+    .toc ol li a {
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .toc ol li a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    /* Typography */
+    section {
+      margin-bottom: 6rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .section-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    h2.section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 2.25rem;
+      font-weight: 500;
+      color: var(--primary);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h3.sub-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Icons General */
+    i.fas,
+    i.far,
+    i.fab {
+      transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+    }
+
+    i.fa-check-circle {
+      color: var(--success);
+    }
+
+    i.fa-times-circle {
+      color: var(--danger);
+    }
+
+    i.fa-exclamation-triangle {
+      color: var(--warning);
+    }
+
+    i.fa-lock,
+    i.fa-shield-alt,
+    i.fa-key {
+      color: var(--accent);
+    }
+
+    /* Tables */
+    .doc-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .doc-table thead th {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.85rem 1.25rem;
+      text-align: left;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .doc-table tbody td {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      color: var(--ink-muted);
+    }
+
+    .doc-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .doc-table tbody tr:hover td {
+      background: rgba(200, 169, 110, 0.05);
+    }
+
+    .doc-table code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: var(--bg-code);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      color: var(--danger);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Code Blocks */
+    pre {
+      background: #1e2433;
+      color: #cdd9e5;
+      border-radius: 8px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin: 1.5rem 0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    pre .comment {
+      color: #637484;
+      font-style: italic;
+    }
+
+    pre .kw {
+      color: #ff7b72;
+    }
+
+    pre .fn {
+      color: #d2a8ff;
+    }
+
+    pre .str {
+      color: #a5d6ff;
+    }
+
+    pre .var {
+      color: #79c0ff;
+    }
+
+    pre .num {
+      color: #79c0ff;
+    }
+
+    .pre-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .copy-btn:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Diagrams & Visuals */
+    .diagram-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    /* ER Diagram Specifics */
+    .er-entity {
+      background: var(--bg-card);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      min-width: 200px;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .er-entity-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border-radius: 5px 5px 0 0;
+      text-align: center;
+    }
+
+    .er-entity-body {
+      padding: 0.75rem 0;
+    }
+
+    .er-entity-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.3rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .er-badge {
+      font-size: 0.65rem;
+      padding: 0.15em 0.5em;
+      border-radius: 3px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .er-pk {
+      background: rgba(200, 169, 110, 0.2);
+      color: #966f28;
+    }
+
+    .er-fk {
+      background: rgba(26, 58, 92, 0.1);
+      color: var(--primary);
+    }
+
+    .er-uq {
+      background: rgba(26, 122, 74, 0.1);
+      color: var(--success);
+    }
+
+    /* Flow Diagram */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .flow-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 32px;
+    }
+
+    .flow-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      z-index: 1;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .flow-line-down {
+      width: 2px;
+      height: 40px;
+      background: var(--border-strong);
+      margin: 4px 0;
+    }
+
+    .flow-content {
+      padding-top: 2px;
+      padding-bottom: 1.5rem;
+    }
+
+    .flow-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .flow-desc {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+
+    .flow-step.end .flow-circle {
+      background: var(--success);
+    }
+
+    .flow-step.err .flow-circle {
+      background: var(--danger);
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+      height: 100%;
+    }
+
+    .info-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .info-card-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      display: inline-block;
+    }
+
+    .info-card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card-desc {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+
+    /* Glossary */
+    .glossary-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .glossary-header {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .glossary-term {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .glossary-tag {
+      font-size: 0.7rem;
+      padding: 0.2em 0.8em;
+      border-radius: 20px;
+      background: rgba(200, 169, 110, 0.15);
+      color: #8a6d2b;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* File Tree */
+    .file-tree {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      background: #1e2433;
+      color: #cdd9e5;
+      border-radius: 10px;
+      padding: 2rem;
+      line-height: 1.8;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .ft-dir {
+      color: #79c0ff;
+      font-weight: bold;
+    }
+
+    .ft-file {
+      color: #cdd9e5;
+    }
+
+    .ft-comment {
+      color: #637484;
+      font-style: italic;
+      margin-left: 1rem;
+      display: inline-block;
+    }
+
+    .ft-highlight {
+      color: #d2a8ff;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      margin: 1.5rem 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 2rem;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-muted);
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li i {
+      color: var(--success);
+      font-size: 1rem;
+    }
+
+    /* Security Badges */
+    .sec-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25em 0.75em;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .sec-high {
+      background: rgba(192, 57, 43, 0.1);
+      color: var(--danger);
+    }
+
+    .sec-med {
+      background: rgba(183, 134, 11, 0.1);
+      color: var(--warning);
+    }
+
+    /* Back to Top */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 45px;
+      height: 45px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .back-to-top:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      background: var(--accent);
+    }
+
+    /* Footer */
+    .doc-footer {
+      background: var(--primary);
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+      border-top: 4px solid var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .doc-wrap {
+        padding: 2rem 1.5rem;
+      }
+
+      .toc {
+        padding: 1.5rem;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body style="">
+  <a href="#top" class="back-to-top" title="Torna su"><i class="fas fa-arrow-up"></i></a>
+
+  <div class="cover" id="top">
+    <div class="cover-inner">
+      <div class="cover-label">Documentazione Tecnica</div>
+      <h1>BiblioTech</h1>
+      <div class="cover-subtitle">Sistema di gestione biblioteca digitale</div>
+      <div class="cover-divider"></div>
+      <div class="cover-meta">
+        <div>Data <span>Febbraio 2026</span></div>
+        <div>Stack <span>PHP 8.2 · MySQL 8.0 · Docker</span></div>
+        <div>Repo <span>Bibliotech-Lattanzio</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-wrap">
+    <div class="toc">
+      <div class="toc-title">Indice dei contenuti</div>
+      <ol>
+        <li><a href="#s1">Introduzione e contesto</a></li>
+        <li><a href="#s2">Stack tecnologico e glossario</a></li>
+        <li><a href="#s3">Architettura del sistema e struttura file</a></li>
+        <li><a href="#s4">Schema database (Diagramma ER)</a></li>
+        <li><a href="#s5">Autenticazione passwordless (Magic Link)</a></li>
+        <li><a href="#s6">Gestione sessioni e sicurezza</a></li>
+        <li><a href="#s7">Funzioni helper e configurazione</a></li>
+        <li><a href="#s8">Flussi operativi e transazioni</a></li>
+        <li><a href="#s9">Gestione catalogo (CRUD Libri)</a></li>
+        <li><a href="#s10">Dashboard e ruoli utente</a></li>
+        <li><a href="#s11">Classi logiche (UML)</a></li>
+        <li><a href="#s12">Dettaglio implementazione file</a></li>
+        <li><a href="#s13">Docker e containerizzazione</a></li>
+        <li><a href="#s14">Frontend e interfaccia utente</a></li>
+        <li><a href="#s15">Template email HTML</a></li>
+        <li><a href="#s16">Sicurezza e best practices</a></li>
+        <li><a href="#s17">Checklist di testing</a></li>
+        <li><a href="#s18">Deployment e avvio</a></li>
+        <li><a href="#s19">Conclusioni</a></li>
+        <li><a href="#s20">Sitografia e risorse</a></li>
+      </ol>
+    </div>
+
+    <!-- 01 -->
+    <section id="s1">
+      <span class="section-number">01 — Introduzione</span>
+      <h2 class="section-title">Introduzione e contesto del progetto</h2>
+      <p>
+        L'istituto scolastico necessita di una migrazione dal vecchio registro cartaceo dei prestiti bibliotecari a
+        una soluzione digitale centralizzata denominata <strong>BiblioTech</strong>. Il sistema garantisce l'integrità
+        dei dati, elimina errori di trascrizione e fornisce un accesso differenziato tra studenti e personale
+        bibliotecario.
+      </p>
+      <p>
+        L'obiettivo primario è automatizzare il ciclo di vita del prestito — uscita e rientro del libro — monitorando
+        in tempo reale le giacenze del catalogo. Un punto cardine è l'eliminazione delle password tradizionali a
+        favore di un sistema <strong>Passwordless (Magic Link)</strong>. Il layer di database utilizza
+        <strong>mysqli procedurale</strong>, scelta diretta e didatticamente trasparente per un progetto PHP/MySQL
+        puro.
+      </p>
+
+      <div class="card-grid">
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fas fa-book"></i></div>
+          <div class="info-card-title">Catalogo digitale</div>
+          <div class="info-card-desc">Ricerca per titolo e autore con filtri disponibilità in tempo reale.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fas fa-shield-alt"></i></div>
+          <div class="info-card-title">Accesso sicuro</div>
+          <div class="info-card-desc">
+            Magic Link crittograficamente sicuro. Zero password memorizzate nel database.
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fas fa-bolt"></i></div>
+          <div class="info-card-title">Transazioni atomiche</div>
+          <div class="info-card-desc">
+            Prevenzione delle race condition grazie a lock pessimistici <code>FOR UPDATE</code>.
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fas fa-users"></i></div>
+          <div class="info-card-title">Ruoli distinti</div>
+          <div class="info-card-desc">
+            Studente e Bibliotecario con viste, menu e permessi completamente separati.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section id="s2">
+      <span class="section-number">02 — Stack e Glossario</span>
+      <h2 class="section-title">Stack tecnologico e glossario</h2>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th>Tecnologia</th>
+            <th>Ruolo nel progetto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Backend</strong></td>
+            <td>PHP 8.2 Procedurale</td>
+            <td>Logica applicativa, query SQL, gestione sessioni</td>
+          </tr>
+          <tr>
+            <td><strong>DB Driver</strong></td>
+            <td>mysqli procedurale</td>
+            <td>Connessione MySQL, prepared statements, transazioni</td>
+          </tr>
+          <tr>
+            <td><strong>Database</strong></td>
+            <td>MySQL 8.0 / InnoDB</td>
+            <td>Persistenza dati, chiavi esterne, vincoli ACID</td>
+          </tr>
+          <tr>
+            <td><strong>Web Server</strong></td>
+            <td>Apache (via immagine docker)</td>
+            <td>Serving di file PHP e risorse statiche</td>
+          </tr>
+          <tr>
+            <td><strong>Frontend</strong></td>
+            <td>Bootstrap 5.3 + CSS Custom</td>
+            <td>UI responsive, componenti, theming personalizzato</td>
+          </tr>
+          <tr>
+            <td><strong>Email</strong></td>
+            <td>PHPMailer 6.9 + Mailtrap</td>
+            <td>Invio magic link sicuri (ambiente di sviluppo SMTP)</td>
+          </tr>
+          <tr>
+            <td><strong>DevOps</strong></td>
+            <td>Docker + Docker Compose</td>
+            <td>Ambiente isolato con 2 servizi: <code>web</code> (PHP/Apache) e <code>db</code> (MySQL).
+              <strong>phpMyAdmin non incluso</strong> — tutto il CRUD libri è gestito via interfaccia web
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title"><i class="fas fa-info-circle"></i> Approfondimenti tecnici</h3>
+
+      <div class="glossary-item">
+        <div class="glossary-header">
+          <span class="glossary-term">mysqli (MySQL Improved)</span>
+          <span class="glossary-tag">Database Layer</span>
+        </div>
+        <p>
+          Estensione PHP dedicata a MySQL. Usata in modalità <strong>procedurale</strong> (es.
+          <code>mysqli_query</code>) anziché ad oggetti, per massima chiarezza didattica. Offre supporto nativo ai
+          Prepared Statements per prevenire SQL Injection.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-header">
+          <span class="glossary-term">CSPRNG (Random Bytes)</span>
+          <span class="glossary-tag">Sicurezza</span>
+        </div>
+        <p>
+          Cryptographically Secure Pseudo-Random Number Generator. In PHP: <code>bin2hex(random_bytes(32))</code>.
+          Genera token a 64 caratteri con entropia sufficiente a renderli imprevedibili, essenziale per i link di
+          login.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-header">
+          <span class="glossary-term">FOR UPDATE (Lock Pessimistico)</span>
+          <span class="glossary-tag">Concorrenza</span>
+        </div>
+        <p>
+          Clausola SQL che blocca le righe lette fino alla fine della transazione. Impedisce che due utenti prenotino
+          l'ultima copia di un libro contemporaneamente (race condition).
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-header">
+          <span class="glossary-term">Docker Compose</span>
+          <span class="glossary-tag">Infrastruttura</span>
+        </div>
+        <p>
+          Strumento per definire ed eseguire applicazioni multi-container. Nel nostro caso orchestra <strong>2
+            servizi</strong>:
+          il container <code>web</code> (PHP/Apache) e il container <code>db</code> (MySQL), creando una rete interna
+          isolata.
+          <strong>phpMyAdmin è stato deliberatamente escluso</strong> poiché tutta l'amministrazione del database
+          (aggiungere, modificare, eliminare libri) avviene tramite l'interfaccia web del progetto,
+          rendendolo superfluo e riducendo la superficie di attacco.
+        </p>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section id="s3">
+      <span class="section-number">03 — Architettura</span>
+      <h2 class="section-title">Architettura del sistema e struttura file</h2>
+      <p>
+        Il progetto segue un approccio in PHP puro. Non viene utilizzato un
+        framework complesso, ma una struttura logica di file separati per responsabilità, inclusi dove necessario.
+      </p>
+
+      <div class="file-tree"><span class="ft-dir">Bibliotech-Lattanzio/</span>
+        ├── <span class="ft-file">.env</span> <span class="ft-comment">← Credenziali sensibili (DB, SMTP)</span>
+        ├── <span class="ft-file">.gitignore</span> <span class="ft-comment">← File da escludere da Git</span>
+        ├── <span class="ft-file">docker-compose.yaml</span> <span class="ft-comment">← Configurazione container
+          Docker</span>
+        ├── <span class="ft-file">Dockerfile</span> <span class="ft-comment">← Immagine PHP 8.2 personalizzata</span>
+        ├── <span class="ft-file">README.md</span> <span class="ft-comment">← Documentazione progetto</span>
+        │
+        ├── <span class="ft-dir">sql/</span>
+        │ └── <span class="ft-file">database.sql</span> <span class="ft-comment">← Schema database + dati
+          iniziali</span>
+        │
+        └── <span class="ft-dir">src/</span> <span class="ft-comment">← Codice sorgente applicazione</span>
+        ├── <span class="ft-file">composer.json</span> <span class="ft-comment">← Gestione dipendenze PHP</span>
+        ├── <span class="ft-dir">vendor/</span> <span class="ft-comment">← Librerie esterne (PHPMailer)</span>
+        │
+        ├── <span class="ft-highlight">index.php</span> <span class="ft-comment">← Pagina iniziale e routing</span>
+        ├── <span class="ft-highlight">login.php</span> <span class="ft-comment">← Form login + invio magic link</span>
+        ├── <span class="ft-highlight">verify.php</span> <span class="ft-comment">← Verifica token e crea
+          sessione</span>
+        ├── <span class="ft-highlight">logout.php</span> <span class="ft-comment">← Chiude sessione utente</span>
+        │
+        ├── <span class="ft-highlight">dashboard.php</span> <span class="ft-comment">← Home personalizzata per
+          ruolo</span>
+        ├── <span class="ft-highlight">libri.php</span> <span class="ft-comment">← Elenco libri con ricerca</span>
+        ├── <span class="ft-highlight">libro.php</span> <span class="ft-comment">← Dettaglio libro e prestito</span>
+        ├── <span class="ft-highlight">prestiti.php</span> <span class="ft-comment">← Storico prestiti studente</span>
+        │
+        ├── <span class="ft-highlight">gestione_libri.php</span> <span class="ft-comment">← Lista libri
+          (bibliotecario)</span>
+        ├── <span class="ft-highlight">libro_form.php</span> <span class="ft-comment">← Form aggiungi/modifica
+          libro</span>
+        ├── <span class="ft-highlight">libro_delete.php</span> <span class="ft-comment">← Elimina libro (con
+          controlli)</span>
+        ├── <span class="ft-highlight">gestione_restituzioni.php</span> <span class="ft-comment">← Gestione rientri
+          (bibliotecario)</span>
+        │
+        ├── <span class="ft-dir">config/</span>
+        │ └── <span class="ft-file">db.php</span> <span class="ft-comment">← Connessione DB + funzioni helper</span>
+        │
+        ├── <span class="ft-dir">includes/</span>
+        │ ├── <span class="ft-file">auth.php</span> <span class="ft-comment">← Controllo autenticazione e ruoli</span>
+        │ └── <span class="ft-file">navbar.php</span> <span class="ft-comment">← Menu di navigazione</span>
+        │
+        └── <span class="ft-dir">assets/</span>
+        ├── <span class="ft-dir">CSS/</span>
+        │ └── <span class="ft-file">style.css</span> <span class="ft-comment">← Stili personalizzati</span>
+        └── <span class="ft-dir">IMG/</span>
+        └── <span class="ft-file">logo.png</span> <span class="ft-comment">← Logo BiblioTech</span>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section id="s4">
+      <span class="section-number">04 — Database</span>
+      <h2 class="section-title">Schema database (Diagramma ER)</h2>
+      <p>
+        Lo schema è normalizzato. La tabella <code>utenti</code> non contiene password. L'autenticazione è delegata
+        alla tabella <code>magic_tokens</code>.
+      </p>
+
+      <div class="diagram-box">
+        <div style="display: flex; flex-direction: column; gap: 2.5rem; align-items: center">
+          <!-- Prima riga: Utenti -->
+          <div class="er-entity" style="width: 280px">
+            <div class="er-entity-header"><i class="fas fa-users"></i> UTENTI</div>
+            <div class="er-entity-body">
+              <div class="er-entity-row">
+                <span class="er-badge er-pk">PK</span>id <span style="color: #aaa; font-size: 0.7em">INT</span>
+              </div>
+              <div class="er-entity-row">
+                <i class="fas fa-font fa-xs" style="color: #ccc"></i> nome
+                <span style="color: #aaa; font-size: 0.7em">VARCHAR(100)</span>
+              </div>
+              <div class="er-entity-row">
+                <span class="er-badge er-uq">UNIQUE</span>email
+                <span style="color: #aaa; font-size: 0.7em">VARCHAR(255)</span>
+              </div>
+              <div class="er-entity-row">
+                <i class="fas fa-tag fa-xs" style="color: #ccc"></i> ruolo
+                <span style="color: #aaa; font-size: 0.7em">ENUM('studente','bibliotecario')</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Freccia verso il basso -->
+          <div style="display: flex; align-items: center; gap: 2rem">
+            <div style="display: flex; flex-direction: column; align-items: center">
+              <i class="fas fa-arrow-down" style="color: var(--accent); font-size: 1.5rem"></i>
+              <span style="font-size: 0.7rem; color: var(--ink-muted); margin-top: 0.25rem">1:N</span>
+            </div>
+          </div>
+
+          <!-- Seconda riga: Magic Tokens e Prestiti -->
+          <div style="display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center">
+            <!-- Magic Tokens -->
+            <div class="er-entity" style="width: 320px">
+              <div class="er-entity-header"><i class="fas fa-key"></i> MAGIC_TOKENS</div>
+              <div class="er-entity-body">
+                <div class="er-entity-row">
+                  <span class="er-badge er-pk">PK</span>id <span style="color: #aaa; font-size: 0.7em">INT</span>
+                </div>
+                <div class="er-entity-row">
+                  <span class="er-badge er-fk">FK</span>id_utente
+                  <span style="color: #aaa; font-size: 0.7em">→ utenti.id</span>
+                </div>
+                <div class="er-entity-row">
+                  <span class="er-badge er-uq">UNIQUE</span>token
+                  <span style="color: #aaa; font-size: 0.7em">VARCHAR(64)</span>
+                </div>
+                <div class="er-entity-row">
+                  <i class="far fa-clock fa-xs" style="color: #ccc"></i> scadenza
+                  <span style="color: #aaa; font-size: 0.7em">DATETIME</span>
+                </div>
+                <div class="er-entity-row">
+                  <i class="far fa-check-square fa-xs" style="color: #ccc"></i> usato
+                  <span style="color: #aaa; font-size: 0.7em">TINYINT(1)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prestiti -->
+            <div class="er-entity" style="width: 320px">
+              <div class="er-entity-header"><i class="fas fa-exchange-alt"></i> PRESTITI</div>
+              <div class="er-entity-body">
+                <div class="er-entity-row">
+                  <span class="er-badge er-pk">PK</span>id <span style="color: #aaa; font-size: 0.7em">INT</span>
+                </div>
+                <div class="er-entity-row">
+                  <span class="er-badge er-fk">FK</span>id_utente
+                  <span style="color: #aaa; font-size: 0.7em">→ utenti.id</span>
+                </div>
+                <div class="er-entity-row">
+                  <span class="er-badge er-fk">FK</span>id_libro
+                  <span style="color: #aaa; font-size: 0.7em">→ libri.id</span>
+                </div>
+                <div class="er-entity-row">
+                  <i class="far fa-calendar fa-xs" style="color: #ccc"></i> data_prestito
+                  <span style="color: #aaa; font-size: 0.7em">DATE</span>
+                </div>
+                <div class="er-entity-row">
+                  <i class="far fa-calendar-check fa-xs" style="color: #ccc"></i> data_restituzione
+                  <span style="color: #aaa; font-size: 0.7em">DATE (nullable)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Freccia verso il basso da Prestiti -->
+          <div style="display: flex; flex-direction: column; align-items: center">
+            <i class="fas fa-arrow-down" style="color: var(--accent); font-size: 1.5rem"></i>
+            <span style="font-size: 0.7rem; color: var(--ink-muted); margin-top: 0.25rem">N:1</span>
+          </div>
+
+          <!-- Terza riga: Libri -->
+          <div class="er-entity" style="width: 300px">
+            <div class="er-entity-header"><i class="fas fa-book"></i> LIBRI</div>
+            <div class="er-entity-body">
+              <div class="er-entity-row">
+                <span class="er-badge er-pk">PK</span>id <span style="color: #aaa; font-size: 0.7em">INT</span>
+              </div>
+              <div class="er-entity-row">
+                <i class="fas fa-heading fa-xs" style="color: #ccc"></i> titolo
+                <span style="color: #aaa; font-size: 0.7em">VARCHAR(255)</span>
+              </div>
+              <div class="er-entity-row">
+                <i class="fas fa-user-edit fa-xs" style="color: #ccc"></i> autore
+                <span style="color: #aaa; font-size: 0.7em">VARCHAR(150)</span>
+              </div>
+              <div class="er-entity-row">
+                <i class="fas fa-layer-group fa-xs" style="color: #ccc"></i> copie_totali
+                <span style="color: #aaa; font-size: 0.7em">INT</span>
+              </div>
+              <div class="er-entity-row">
+                <i class="fas fa-check fa-xs" style="color: #ccc"></i> copie_disponibili
+                <span style="color: #aaa; font-size: 0.7em">INT</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legenda -->
+          <div
+            style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; font-size: 0.8rem">
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <span class="er-badge er-pk">PK</span>
+              <span style="color: var(--ink-muted)">Chiave Primaria</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <span class="er-badge er-fk">FK</span>
+              <span style="color: var(--ink-muted)">Chiave Esterna</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <span class="er-badge er-uq">UNIQUE</span>
+              <span style="color: var(--ink-muted)">Valore Univoco</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="s5">
+      <span class="section-number">05 — Autenticazione</span>
+      <h2 class="section-title">Autenticazione passwordless (Magic Link)</h2>
+      <p>
+        L'accesso avviene tramite un link temporaneo inviato per email, eliminando i rischi legati alla gestione delle
+        password.
+      </p>
+
+      <div class="diagram-box">
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-left">
+              <div class="flow-circle">1</div>
+              <div class="flow-line-down"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">Richiesta accesso</div>
+              <div class="flow-desc">
+                Utente inserisce email in <code>login.php</code>. Validazione formato email.
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-left">
+              <div class="flow-circle">2</div>
+              <div class="flow-line-down"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">Generazione token sicuro</div>
+              <div class="flow-code">$token = bin2hex(random_bytes(32));</div>
+              <div class="flow-desc">
+                Token a 64 caratteri esadecimali (256 bit di entropia). Scadenza impostata a 15 minuti.
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-left">
+              <div class="flow-circle">3</div>
+              <div class="flow-line-down"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">Invio email (Mailtrap)</div>
+              <div class="flow-desc">PHPMailer invia il link: <code>http://host/verify.php?token=...</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-left">
+              <div class="flow-circle">4</div>
+              <div class="flow-line-down"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">Verifica token</div>
+              <div class="flow-desc">
+                Utente clicca. Script <code>verify.php</code> controlla validità, scadenza e flag 'usato'.
+              </div>
+            </div>
+          </div>
+          <div class="flow-step end">
+            <div class="flow-left">
+              <div class="flow-circle"><i class="fas fa-check"></i></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">Login effettuato</div>
+              <div class="flow-desc">
+                Token marcato come usato. ID sessione rigenerato. Utente reindirizzato alla Dashboard.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section id="s6">
+      <span class="section-number">06 — Sessioni</span>
+      <h2 class="section-title">Gestione sessioni e sicurezza</h2>
+
+      <span class="pre-label"><i class="fas fa-code"></i> includes/auth.php — Creazione sessione sicura</span>
+      <pre><code class="language-php"><span class="kw">function</span> <span class="fn">createUserSession</span>(<span class="var">$user</span>) {
+    <span class="comment">// Prevenzione Session Fixation</span>
+    <span class="fn">session_regenerate_id</span>(<span class="kw">true</span>);
+    
+    <span class="var">$_SESSION</span>[<span class="str">'user_id'</span>]    = <span class="var">$user</span>[<span class="str">'id'</span>];
+    <span class="var">$_SESSION</span>[<span class="str">'ruolo'</span>]      = <span class="var">$user</span>[<span class="str">'ruolo'</span>];
+    <span class="var">$_SESSION</span>[<span class="str">'nome'</span>]       = <span class="var">$user</span>[<span class="str">'nome'</span>];
+    <span class="var">$_SESSION</span>[<span class="str">'login_time'</span>] = <span class="fn">time</span>();
+}</code><button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent)">Copia</button></pre>
+
+      <h3 class="sub-title"><i class="fas fa-shield-alt"></i> Misure di sicurezza implementate</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Minaccia</th>
+            <th>Contromisura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SQL Injection</strong></td>
+            <td>Uso esclusivo di Prepared Statements con <code>mysqli</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>XSS (Cross-Site Scripting)</strong></td>
+            <td>Escape dell'output con <code>htmlspecialchars()</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Session Fixation</strong></td>
+            <td><code>session_regenerate_id(true)</code> al login.</td>
+          </tr>
+          <tr>
+            <td><strong>Brute Force Token</strong></td>
+            <td>Token 256-bit CSPRNG impossibile da indovinare.</td>
+          </tr>
+          <tr>
+            <td><strong>Race Conditions</strong></td>
+            <td>Transazioni database + <code>FOR UPDATE</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 07 -->
+    <section id="s7">
+      <span class="section-number">07 — Configurazione</span>
+      <h2 class="section-title">Funzioni helper e configurazione</h2>
+      <p>
+        Per mantenere il codice pulito, le operazioni database comuni sono state astratte in funzioni helper nel file
+        <code>config/db.php</code>.
+      </p>
+
+      <span class="pre-label"><i class="fas fa-database"></i> config/db.php — Wrapper mysqli</span>
+      <pre><code class="language-php"><span class="comment">// Esegue query con binding parametri automatico</span>
+<span class="kw">function</span> <span class="fn">db_query</span>(<span class="var">$sql</span>, <span class="var">$params</span> = []) {
+    <span class="kw">global</span> <span class="var">$conn</span>;
+    <span class="var">$stmt</span> = <span class="fn">mysqli_prepare</span>(<span class="var">$conn</span>, <span class="var">$sql</span>);
+    <span class="kw">if</span> (<span class="var">$params</span>) {
+        <span class="var">$types</span> = <span class="fn">str_repeat</span>(<span class="str">'s'</span>, <span class="fn">count</span>(<span class="var">$params</span>));
+        <span class="fn">mysqli_stmt_bind_param</span>(<span class="var">$stmt</span>, <span class="var">$types</span>, ...<span class="var">$params</span>);
+    }
+    <span class="fn">mysqli_stmt_execute</span>(<span class="var">$stmt</span>);
+    <span class="kw">return</span> <span class="var">$stmt</span>;
+}
+
+<span class="comment">// Ritorna una singola riga come array associativo</span>
+<span class="kw">function</span> <span class="fn">db_fetch_one</span>(<span class="var">$sql</span>, <span class="var">$params</span> = []) {
+    <span class="var">$stmt</span> = <span class="fn">db_query</span>(<span class="var">$sql</span>, <span class="var">$params</span>);
+    <span class="var">$res</span>  = <span class="fn">mysqli_stmt_get_result</span>(<span class="var">$stmt</span>);
+    <span class="kw">return</span> <span class="fn">mysqli_fetch_assoc</span>(<span class="var">$res</span>);
+}</code><button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent)">Copia</button></pre>
+    </section>
+
+    <!-- 08 -->
+    <section id="s8">
+      <span class="section-number">08 — Transazioni</span>
+      <h2 class="section-title">Flussi operativi e transazioni</h2>
+      <p>
+        La gestione del prestito richiede atomicità assoluta. Se due studenti provano a prendere l'ultima copia di un
+        libro nello stesso millisecondo, solo uno deve riuscirci.
+      </p>
+
+      <span class="pre-label"><i class="fas fa-file-code"></i> libro.php — Logica di prestito atomica</span>
+      <pre><code class="language-php"><span class="fn">db_begin</span>(); <span class="comment">// Inizio transazione</span>
+<span class="kw">try</span> {
+    <span class="comment">// 1. Lock sulla riga del libro</span>
+    <span class="var">$libro</span> = <span class="fn">db_fetch_one</span>(
+        <span class="str">"SELECT * FROM libri WHERE id=? AND copie_disponibili &gt; 0 FOR UPDATE"</span>, 
+        [<span class="var">$id_libro</span>]
+    );
+    
+    <span class="kw">if</span> (!<span class="var">$libro</span>) <span class="kw">throw new</span> <span class="fn">Exception</span>(<span class="str">"Libro non disponibile"</span>);
+
+    <span class="comment">// 2. Inserimento prestito</span>
+    <span class="fn">db_query</span>(<span class="str">"INSERT INTO prestiti (id_utente, id_libro, data_prestito) VALUES (?, ?, CURDATE())"</span>, 
+        [<span class="var">$user_id</span>, <span class="var">$id_libro</span>]);
+
+    <span class="comment">// 3. Decremento contatore copie</span>
+    <span class="fn">db_query</span>(<span class="str">"UPDATE libri SET copie_disponibili = copie_disponibili - 1 WHERE id=?"</span>, 
+        [<span class="var">$id_libro</span>]);
+
+    <span class="fn">db_commit</span>(); <span class="comment">// Conferma modifiche</span>
+} <span class="kw">catch</span> (<span class="fn">Exception</span> <span class="var">$e</span>) {
+    <span class="fn">db_rollback</span>(); <span class="comment">// Annulla tutto in caso di errore</span>
+}</code><button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent)">Copia</button></pre>
+    </section>
+
+    <!-- 09 -->
+    <section id="s9">
+      <span class="section-number">09 — Catalogo</span>
+      <h2 class="section-title">Gestione catalogo (CRUD Libri)</h2>
+      <p>
+        Il bibliotecario ha accesso completo alla gestione dei libri tramite i file <code>gestione_libri.php</code>,
+        <code>libro_form.php</code> e <code>libro_delete.php</code>.
+      </p>
+
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Operazione</th>
+            <th>File</th>
+            <th>Descrizione e vincoli</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Visualizza</strong></td>
+            <td><code>gestione_libri.php</code></td>
+            <td>Lista tabellare con paginazione e ricerca. Mostra disponibilità in tempo reale.</td>
+          </tr>
+          <tr>
+            <td><strong>Aggiungi</strong></td>
+            <td><code>libro_form.php</code></td>
+            <td>Form per nuovi libri. Valida che <code>copie_totali &gt;= copie_disponibili</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Modifica</strong></td>
+            <td><code>libro_form.php</code></td>
+            <td>
+              Stesso file dell'aggiunta (logica pre-fill). Impedisce di ridurre le copie totali sotto il numero di
+              copie attualmente in prestito.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Elimina</strong></td>
+            <td><code>libro_delete.php</code></td>
+            <td>
+              <span style="color: var(--danger); font-weight: 600"><i class="fas fa-hand-paper"></i> Guard
+                Clause:</span>
+              Impedisce l'eliminazione se ci sono prestiti attivi collegati al libro.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 10 -->
+    <section id="s10">
+      <span class="section-number">10 — Dashboard</span>
+      <h2 class="section-title">Dashboard e ruoli utente</h2>
+      <p>
+        Il file <code>dashboard.php</code> funge da controller della vista home, renderizzando contenuti diversi in
+        base al ruolo in sessione.
+      </p>
+
+      <h3 class="sub-title"><i class="fas fa-user-graduate"></i> Dashboard Studente</h3>
+      <ul class="checklist">
+        <li><i class="fas fa-check-circle"></i> Statistiche personali (libri in prestito, storico totale).</li>
+        <li><i class="fas fa-check-circle"></i> Lista prestiti attivi con badge colorati per scadenza.</li>
+        <li><i class="fas fa-check-circle"></i> Suggerimenti di libri disponibili.</li>
+      </ul>
+
+      <h3 class="sub-title"><i class="fas fa-user-tie"></i> Dashboard Bibliotecario</h3>
+      <ul class="checklist">
+        <li><i class="fas fa-check-circle"></i> Panoramica globale (totale libri, prestiti attivi, ritardi).</li>
+        <li><i class="fas fa-check-circle"></i> Grafico a ciambella (Chart.js) disponibilità vs prestiti.</li>
+        <li><i class="fas fa-check-circle"></i> Tabella ultimi movimenti.</li>
+        <li><i class="fas fa-check-circle"></i> Link rapidi per gestione restituzioni e catalogo.</li>
+      </ul>
+    </section>
+
+    <!-- 11 -->
+    <section id="s11">
+      <span class="section-number">11 — UML</span>
+      <h2 class="section-title">Classi logiche (UML)</h2>
+      <p>
+        Sebbene il codice sia procedurale, è organizzato in moduli logici che rispettano il principio di separazione
+        delle responsabilità.
+      </p>
+
+      <div class="diagram-box">
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center">
+          <!-- Riga superiore: Moduli principali -->
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center">
+            <!-- AuthModule -->
+            <div style="
+                  border: 3px solid var(--primary);
+                  border-radius: 10px;
+                  background: var(--bg-card);
+                  width: 240px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                ">
+              <div style="
+                    background: var(--primary);
+                    color: #fff;
+                    padding: 12px;
+                    font-weight: 600;
+                    text-align: center;
+                    font-size: 0.95rem;
+                  ">
+                <i class="fas fa-shield-alt"></i> Autenticazione
+              </div>
+              <div style="padding: 16px; font-size: 0.85rem; line-height: 1.8; color: var(--ink)">
+                <div style="margin-bottom: 0.5rem"><strong>File:</strong> auth.php</div>
+                <div style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem">
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-envelope"></i>
+                    login(email)</div>
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-key"></i> verifyToken()
+                  </div>
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-sign-out-alt"></i>
+                    logout()</div>
+                  <div style="color: var(--ink-muted)"><i class="fas fa-lock"></i> requireAuth()</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BookModule -->
+            <div style="
+                  border: 3px solid var(--primary);
+                  border-radius: 10px;
+                  background: var(--bg-card);
+                  width: 240px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                ">
+              <div style="
+                    background: var(--primary);
+                    color: #fff;
+                    padding: 12px;
+                    font-weight: 600;
+                    text-align: center;
+                    font-size: 0.95rem;
+                  ">
+                <i class="fas fa-book"></i> Gestione libri
+              </div>
+              <div style="padding: 16px; font-size: 0.85rem; line-height: 1.8; color: var(--ink)">
+                <div style="margin-bottom: 0.5rem"><strong>File:</strong> libri.php, libro.php</div>
+                <div style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem">
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-list"></i> getBooks()
+                  </div>
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-info-circle"></i>
+                    getBookDetail()</div>
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-hand-holding"></i>
+                    loanBook()</div>
+                  <div style="color: var(--ink-muted)"><i class="fas fa-search"></i> searchBooks()</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AdminModule -->
+            <div style="
+                  border: 3px solid var(--accent);
+                  border-radius: 10px;
+                  background: var(--bg-card);
+                  width: 240px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                ">
+              <div style="
+                    background: var(--accent);
+                    color: #1a1a1a;
+                    padding: 12px;
+                    font-weight: 600;
+                    text-align: center;
+                    font-size: 0.95rem;
+                  ">
+                <i class="fas fa-user-shield"></i> Amministrazione
+              </div>
+              <div style="padding: 16px; font-size: 0.85rem; line-height: 1.8; color: var(--ink)">
+                <div style="margin-bottom: 0.5rem"><strong>File:</strong> gestione_*.php</div>
+                <div style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem">
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-plus"></i> createBook()
+                  </div>
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-edit"></i> updateBook()
+                  </div>
+                  <div style="color: var(--ink-muted); margin-bottom: 0.3rem"><i class="fas fa-trash"></i> deleteBook()
+                  </div>
+                  <div style="color: var(--ink-muted)"><i class="fas fa-undo"></i> manageReturns()</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Freccia verso il basso -->
+          <div style="text-align: center">
+            <i class="fas fa-arrow-down" style="color: var(--accent); font-size: 2rem"></i>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); margin-top: 0.5rem">tutti i moduli utilizzano</div>
+          </div>
+
+          <!-- Riga inferiore: DbHelper -->
+          <div style="
+                border: 3px solid var(--success);
+                border-radius: 10px;
+                background: var(--bg-card);
+                width: 400px;
+                overflow: hidden;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+              ">
+            <div style="
+                  background: var(--success);
+                  color: #fff;
+                  padding: 12px;
+                  font-weight: 600;
+                  text-align: center;
+                  font-size: 1rem;
+                ">
+              <i class="fas fa-database"></i> Database Helper
+            </div>
+            <div style="padding: 16px; font-size: 0.85rem; color: var(--ink)">
+              <div style="margin-bottom: 0.75rem"><strong>File:</strong> config/db.php</div>
+              <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 0.5rem">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; color: var(--ink-muted)">
+                  <div><i class="fas fa-plug"></i> db_connect()</div>
+                  <div><i class="fas fa-code"></i> db_query()</div>
+                  <div><i class="fas fa-download"></i> db_fetch_one()</div>
+                  <div><i class="fas fa-list-ul"></i> db_fetch_all()</div>
+                  <div><i class="fas fa-play"></i> db_begin()</div>
+                  <div><i class="fas fa-check"></i> db_commit()</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nota esplicativa -->
+          <div
+            style="max-width: 600px; margin-top: 1rem; padding: 1rem; background: rgba(200,169,110,0.1); border-radius: 8px; border-left: 4px solid var(--accent)">
+            <div style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6">
+              <strong style="color: var(--primary)"><i class="fas fa-info-circle"></i> Nota architetturale:</strong><br>
+              Il progetto usa PHP procedurale organizzato in moduli logici. Ogni modulo raggruppa funzioni correlate per
+              responsabilità specifica. Tutti comunicano con il database attraverso le funzioni helper centralizzate.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section id="s12">
+      <span class="section-number">12 — File Dettaglio</span>
+      <h2 class="section-title">Dettaglio implementazione file</h2>
+      <p>Analisi delle responsabilità specifiche per i file chiave del progetto.</p>
+
+      <div class="glossary-item">
+        <div class="glossary-header"><span class="glossary-term">index.php</span></div>
+        <p>
+          Punto di ingresso. Se l'utente ha la sessione, reindirizza a <code>dashboard.php</code>. Altrimenti, manda a
+          <code>login.php</code>.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-header"><span class="glossary-term">gestione_restituzioni.php</span></div>
+        <p>
+          File critico per i bibliotecari. Mostra i prestiti attivi in una tabella con azioni rapide. Gestisce la
+          logica di ritorno del libro: update data_restituzione in tabella <code>prestiti</code> e incremento copie in
+          tabella <code>libri</code>.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-header"><span class="glossary-term">assets/CSS/style.css</span></div>
+        <p>
+          Contiene le definizioni delle variabili CSS (<code>:root</code>) per il theming. Definisce classi utility
+          come <code>.badge-status-ok</code>, <code>.badge-status-warning</code> per il feedback visivo immediato.
+        </p>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section id="s13">
+      <span class="section-number">13 — Docker</span>
+      <h2 class="section-title">Docker e containerizzazione</h2>
+      <p>L'intero stack è containerizzato per garantire coerenza tra sviluppo e produzione.</p>
+
+      <span class="pre-label"><i class="fab fa-docker"></i> docker-compose.yaml</span>
+      <pre><code class="language-yaml">services:
+  web:
+    build: .
+    ports:
+      - "8085:80"
+    environment:
+      - DB_HOST=db
+      - DB_USER=bibliotech_user
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+      
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=bibliotech
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d</code><button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent)">Copia</button></pre>
+    </section>
+
+    <!-- 14 -->
+    <section id="s14">
+      <span class="section-number">14 — UI/UX</span>
+      <h2 class="section-title">Frontend e interfaccia utente</h2>
+      <p>
+        L'interfaccia utilizza <strong>Bootstrap 5.3</strong> esteso con CSS personalizzato. L'obiettivo è un design
+        pulito, accessibile e responsivo.
+      </p>
+
+      <h3 class="sub-title">Elementi chiave UI</h3>
+      <div class="card-grid">
+        <div class="info-card">
+          <div class="info-card-title"><i class="fas fa-bars"></i> Navbar &amp; Sidebar</div>
+          <div class="info-card-desc">
+            Barra di navigazione sticky con menu offcanvas su mobile. Mostra l'avatar dell'utente generato dalle
+            iniziali.
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title"><i class="fas fa-traffic-light"></i> Badge di stato</div>
+          <div class="info-card-desc">
+            Color coding semantico per i prestiti: verde (ok), giallo (in scadenza), rosso (scaduto).
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title"><i class="fas fa-bell"></i> Messaggi Flash</div>
+          <div class="info-card-desc">
+            Alert dismissible per feedback operazioni (es. "Libro aggiunto con successo" o "Errore database").
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section id="s15">
+      <span class="section-number">15 — Email</span>
+      <h2 class="section-title">Template email HTML</h2>
+      <p>
+        Le email transazionali per il magic link sono formattate in HTML responsivo per garantire leggibilità su tutti
+        i client.
+      </p>
+      <div style="
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+          ">
+        <div style="background: #1a3a5c; color: #fff; padding: 15px; text-align: center; border-radius: 5px 5px 0 0">
+          <h3 style="margin: 0; font-size: 1.2rem; color: #fff"><i class="fas fa-book-open"></i> BiblioTech</h3>
+        </div>
+        <div style="background: #fff; padding: 20px; text-align: center; border-radius: 0 0 5px 5px">
+          <p style="color: #333">Ciao <strong>Mario Rossi</strong>,</p>
+          <p style="color: #555; font-size: 0.9rem">Usa questo link per accedere. Valido per 15 minuti.</p>
+          <a href="#" style="
+                display: inline-block;
+                background: #c8a96e;
+                color: #1a1a1a;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-weight: bold;
+                margin: 15px 0;
+              ">Accedi ora <i class="fas fa-arrow-right"></i></a>
+          <p style="font-size: 0.75rem; color: #999; margin-top: 20px">
+            Se non hai richiesto questo accesso, ignora questa email.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section id="s16">
+      <span class="section-number">16 — Sicurezza</span>
+      <h2 class="section-title">Sicurezza e best practices</h2>
+      <p>Riepilogo delle contromisure adottate per garantire la sicurezza applicativa.</p>
+
+      <ul class="checklist">
+        <li>
+          <i class="fas fa-shield-alt"></i> <strong>File .env fuori dalla webroot</strong>: Credenziali mai esposte
+          nel codice sorgente.
+        </li>
+        <li>
+          <i class="fas fa-shield-alt"></i> <strong>Nessuna password salvata</strong>: Impossibile rubare credenziali
+          dal database.
+        </li>
+        <li>
+          <i class="fas fa-shield-alt"></i> <strong>Validazione Input</strong>: <code>filter_var()</code> per email,
+          casting a <code>(int)</code> per ID.
+        </li>
+        <li>
+          <i class="fas fa-shield-alt"></i> <strong>Principio del privilegio minimo</strong>: Utente DB separato
+          dall'utente root.
+        </li>
+        <li>
+          <i class="fas fa-shield-alt"></i> <strong>Error Handling</strong>: Errori DB loggati ma mai mostrati
+          all'utente finale (messaggi generici).
+        </li>
+      </ul>
+    </section>
+
+    <!-- 17 -->
+    <section id="s17">
+      <span class="section-number">17 — Testing</span>
+      <h2 class="section-title">Checklist di testing</h2>
+      <p>Piano di verifica funzionale per l'accettazione del sistema.</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Test Case</th>
+            <th>Risultato Atteso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Richiesta Magic Link (email valida)</td>
+            <td>Ricezione email Mailtrap con token.</td>
+          </tr>
+          <tr>
+            <td>Click su Link scaduto (&gt;15m)</td>
+            <td>Errore "Link scaduto", redirect login.</td>
+          </tr>
+          <tr>
+            <td>Tentativo accesso pagina admin da studente</td>
+            <td>Redirect Dashboard Studente + errore "Non autorizzato".</td>
+          </tr>
+          <tr>
+            <td>Prestito libro con 0 copie</td>
+            <td>Errore "Libro non disponibile".</td>
+          </tr>
+          <tr>
+            <td>Eliminazione libro con prestiti attivi</td>
+            <td>Errore bloccante, libro non eliminato.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 18 -->
+    <section id="s18">
+      <span class="section-number">18 — Deployment</span>
+      <h2 class="section-title">Deployment e avvio</h2>
+      <p>Passaggi per avviare l'applicazione in locale da zero.</p>
+
+      <span class="pre-label">Terminale</span>
+      <pre><code class="language-bash"><span class="comment"># 1. Clona repository</span>
+git clone https://github.com/tuo-user/Bibliotech-Lattanzio.git
+cd Bibliotech-Lattanzio
+
+<span class="comment"># 2. Configura .env</span>
+cp .env.example .env
+<span class="comment"># Modifica .env con le tue credenziali Mailtrap</span>
+
+<span class="comment"># 3. Avvia container</span>
+docker compose up -d --build
+
+<span class="comment"># 4. Accedi</span>
+<span class="comment"># Browser: http://localhost:8085</span>
+<span class="comment"># Mailtrap: controlla inbox per i link di login</span></code><button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent)">Copia</button></pre>
+    </section>
+
+    <!-- 19 -->
+    <section id="s19">
+      <span class="section-number">19 — Conclusioni</span>
+      <h2 class="section-title">Conclusioni</h2>
+      <p>
+        <strong>BiblioTech v2.0.0</strong> rappresenta un moderno esempio di applicazione gestionale scolastica.
+        L'abbandono delle password a favore dei <strong>Magic Link</strong> migliora la sicurezza e
+        l'esperienza utente. L'uso di Docker garantisce che l'applicazione funzioni in modo uniforme su
+        diverse macchine.
+      </p>
+      <p>
+        Il codice, scritto in <strong>PHP</strong>, è stato organizzato per essere facilmente leggibile e
+        manutenibile, rappresentando un buon esempio pratico di interazione sicura con database MySQL e gestione
+        dei flussi applicativi.
+      </p>
+    </section>
+
+    <!-- 20 -->
+    <section id="s20">
+      <span class="section-number">20 — Sitografia</span>
+      <h2 class="section-title">Risorse e riferimenti</h2>
+      <p>
+        Durante lo sviluppo di questo progetto sono state consultate le seguenti risorse per approfondire concetti
+        tecnici, best practices e implementazioni specifiche.
+      </p>
+
+      <h3 class="sub-title"><i class="fas fa-book-open"></i> Documentazione ufficiale</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Risorsa</th>
+            <th>URL</th>
+            <th>Utilizzo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>PHP Manual</strong></td>
+            <td><a href="https://www.php.net/manual/en/" target="_blank"
+                style="color: var(--primary); text-decoration: none;">php.net/manual</a></td>
+            <td>Sintassi PHP, funzioni mysqli, gestione sessioni</td>
+          </tr>
+          <tr>
+            <td><strong>MySQL Documentation</strong></td>
+            <td><a href="https://dev.mysql.com/doc/" target="_blank"
+                style="color: var(--primary); text-decoration: none;">dev.mysql.com/doc</a></td>
+            <td>Query SQL, transazioni, clausola FOR UPDATE</td>
+          </tr>
+          <tr>
+            <td><strong>Docker Docs</strong></td>
+            <td><a href="https://docs.docker.com/" target="_blank"
+                style="color: var(--primary); text-decoration: none;">docs.docker.com</a></td>
+            <td>Dockerfile, Docker Compose, orchestrazione container</td>
+          </tr>
+          <tr>
+            <td><strong>Bootstrap 5</strong></td>
+            <td><a href="https://getbootstrap.com/docs/5.3/" target="_blank"
+                style="color: var(--primary); text-decoration: none;">getbootstrap.com</a></td>
+            <td>Componenti UI, grid system, utility classes</td>
+          </tr>
+          <tr>
+            <td><strong>PHPMailer</strong></td>
+            <td><a href="https://github.com/PHPMailer/PHPMailer" target="_blank"
+                style="color: var(--primary); text-decoration: none;">github.com/PHPMailer</a></td>
+            <td>Invio email SMTP, configurazione Mailtrap</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title"><i class="fas fa-graduation-cap"></i> Guide e tutorial</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Argomento</th>
+            <th>Fonte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Magic Link Authentication</strong></td>
+            <td>
+              <a href="https://dev.to/" target="_blank" style="color: var(--primary); text-decoration: none;">Dev.to
+                Community Articles</a> — Pattern di autenticazione passwordless
+            </td>
+          </tr>
+          <tr>
+            <td><strong>SQL Injection Prevention</strong></td>
+            <td>
+              <a href="https://owasp.org/" target="_blank" style="color: var(--primary); text-decoration: none;">OWASP
+                Foundation</a> — Best practices per prepared statements
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Database Transactions</strong></td>
+            <td>
+              <a href="https://www.mysqltutorial.org/" target="_blank"
+                style="color: var(--primary); text-decoration: none;">MySQL Tutorial</a> — Gestione transazioni e lock
+            </td>
+          </tr>
+          <tr>
+            <td><strong>PHP Security</strong></td>
+            <td>
+              <a href="https://www.php.net/manual/en/security.php" target="_blank"
+                style="color: var(--primary); text-decoration: none;">PHP Security Guide</a> — XSS, CSRF, session
+              management
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Docker per PHP</strong></td>
+            <td>
+              <a href="https://www.digitalocean.com/community" target="_blank"
+                style="color: var(--primary); text-decoration: none;">DigitalOcean Tutorials</a> — Containerizzazione
+              applicazioni PHP
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title"><i class="fas fa-tools"></i> Strumenti e servizi</h3>
+      <ul class="checklist">
+        <li>
+          <i class="fas fa-envelope"></i> <strong>Mailtrap</strong> —
+          <a href="https://mailtrap.io/" target="_blank"
+            style="color: var(--primary); text-decoration: none;">mailtrap.io</a> —
+          Test email in ambiente di sviluppo
+        </li>
+        <li>
+          <i class="fas fa-code"></i> <strong>Visual Studio Code</strong> —
+          <a href="https://code.visualstudio.com/" target="_blank"
+            style="color: var(--primary); text-decoration: none;">code.visualstudio.com</a> —
+          Editor di codice utilizzato
+        </li>
+        <li>
+          <i class="fas fa-database"></i> <strong>Docker</strong> —
+          <a href="https://www.docker.com" target="_blank"
+            style="color: var(--primary); text-decoration: none;">docker.com</a> —
+            Containerizzazione delle applicazioni
+        </li>
+        <li>
+          <i class="fab fa-git-alt"></i> <strong>Git &amp; GitHub</strong> —
+          <a href="https://github.com/" target="_blank"
+            style="color: var(--primary); text-decoration: none;">github.com</a> —
+          Versionamento e hosting repository
+        </li>
+      </ul>
+
+      <h3 class="sub-title"><i class="fas fa-users"></i> Community e forum</h3>
+      <div
+        style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0">
+        <ul style="list-style: none; padding: 0; margin: 0">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border)">
+            <i class="fab fa-stack-overflow" style="color: #f48024; margin-right: 0.5rem"></i>
+            <strong>Stack Overflow</strong> —
+            <a href="https://stackoverflow.com/" target="_blank"
+              style="color: var(--primary); text-decoration: none;">stackoverflow.com</a> —
+            Risoluzione problemi specifici PHP/MySQL
+          </li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border)">
+            <i class="fab fa-reddit" style="color: #ff4500; margin-right: 0.5rem"></i>
+            <strong>r/PHP Community</strong> —
+            <a href="https://www.reddit.com/r/PHP/" target="_blank"
+              style="color: var(--primary); text-decoration: none;">reddit.com/r/PHP</a> —
+            Discussioni e best practices
+          </li>
+          <li style="padding: 0.5rem 0">
+            <i class="fab fa-dev" style="color: #0a0a0a; margin-right: 0.5rem"></i>
+            <strong>DEV Community</strong> —
+            <a href="https://dev.to/" target="_blank" style="color: var(--primary); text-decoration: none;">dev.to</a> —
+            Articoli e tutorial sulla sicurezza web
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <!-- doc-wrap -->
+
+  <div class="doc-footer">
+    BiblioTech-Lattanzio — Documentazione Tecnica · Febbraio 2026<br>
+    Sviluppato con <i class="fas fa-heart" style="color: #c8a96e; margin: 0 4px"></i> e PHP
+  </div>
+
+
+</body>
+
+</html>
