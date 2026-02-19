@@ -65,41 +65,9 @@ docker compose restart
 # Visualizzare i log
 docker compose logs -f
 
-# Ricostruire da zero (elimina anche il database)
+# Ricostruire da zero
 docker compose down -v
 docker compose up -d --build
-
-
-## Struttura Progetto
-
-Bibliotech-Lattanzio/
-├── docker-compose.yml
-├── Dockerfile
-├── README.md
-├── sql/
-│   └── database.sql
-├── src/
-│   ├── composer.json
-│   ├── login.php
-│   ├── verify.php
-│   ├── logout.php
-│   ├── dashboard.php
-│   ├── libri.php
-│   ├── libro.php
-│   ├── prestiti.php
-│   ├── gestione_libri.php
-│   ├── gestione_restituzioni.php
-│   ├── config/
-│   │   └── db.php
-│   ├── includes/
-│   │   └── auth.php
-│   └── assets/
-│       ├── css/
-│       │   └── style.css
-│       └── IMG/
-│           └── logo.png
-└── docs/
-    └── documentazione.pdf
 
 
 ## Accesso Database
